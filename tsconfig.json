@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "ES2015",
+        "lib": ["DOM", "ES2015"],
+        "declaration": true,
+        "outDir": "./dist",
+        "strict": true,
+        "allowJs": true,
+        "moduleResolution": "node",
+        "noEmit": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": ["src/*", "node_modules/*"]
+          },
+        "rootDir": "./",
+        "importHelpers": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "resolveJsonModule": true
+    }
+}
