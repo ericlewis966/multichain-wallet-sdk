@@ -116,24 +116,6 @@ describe('Solana Test', () => {
         expect(typeof solBalance).toBe('object');
         expect(typeof tokenBalance).toBe('object');
     })
-
-    // it('Transfer SOL&Token', async () => {
-    //     const tx = await Solana.transferToken({
-    //         rpcUrl: 'https://api.devnet.solana.com',
-    //         privateKey: 'b43bATy8pAqCKq1hFuf37G9KfMoDNxAkUZqNaeoUaisj4YQiuoeabcCHcDZaJvf2u7sNNTR9umMiYvTyZeSifFY',
-    //         tokenAddress: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
-    //         to: 'EnreYo9RMVmUDRcYsHBxXvCkWQptcGrtAi9uHTV3Cba8',
-    //         amount: 0.1
-    //     })
-
-    //     const solBalance = await Solana.getBalance({
-    //         rpcUrl: 'https://api.devnet.solana.com',
-    //         address: 'EnreYo9RMVmUDRcYsHBxXvCkWQptcGrtAi9uHTV3Cba8'
-    //     })
-
-    //     expect(typeof tx).toBe('object');
-    //     expect(typeof solBalance).toBe('object');
-    // })
 })
 
 describe('Test Bitcoin', () => {
@@ -160,17 +142,4 @@ describe('Test Bitcoin', () => {
 
         expect(typeof importedWallet).toBe('object');
     })
-
-    // it('Create Raw Transaction', async () => {
-    //     const tx = await Bitcoin.sendBtc({
-    //         network: 'bitcoin',
-    //         senderPrivatekey: createdWallet.privateKey,
-    //         senderAddress: createdWallet.address,
-    //         receiveAddress: randomWallet.address,
-    //         amount: 10
-    //     })
-
-    //     expect(typeof tx).toBe('object');
-    //     console.log(tx);
-    // })
 })
