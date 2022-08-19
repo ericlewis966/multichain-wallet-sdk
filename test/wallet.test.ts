@@ -1,6 +1,7 @@
 import * as Ethereum from '../src/wallet/ethereum';
 import * as Solana from '../src/wallet/solana';
 import * as Bitcoin from '../src/wallet/bitcoin';
+import * as Ripple from '../src/wallet/ripple';
 
 interface EthWallet {
     address: string;
@@ -141,5 +142,12 @@ describe('Test Bitcoin', () => {
         })
 
         expect(typeof importedWallet).toBe('object');
+    })
+})
+
+describe('Ripple Test', () => {
+    it('Create Wallet', async () => {
+        const wallet = await Ripple.createWallet();
+        console.log(wallet);
     })
 })

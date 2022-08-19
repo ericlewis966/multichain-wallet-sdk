@@ -3,8 +3,6 @@ import * as ecc from 'tiny-secp256k1';
 import * as  bip39 from 'bip39';
 import * as bitcoin from 'bitcoinjs-lib';
 
-import CryptoAccount from 'send-crypto';
-
 import { response } from '../../utils/response';
 import { 
     BITCOIN_DEFAULT,
@@ -98,42 +96,42 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
     })
 }
 
-const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {
-    let network
+// const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {
+//     let network
 
-    switch(_network) {
-        case BTC_MAINNET:
-            network = bitcoin.networks.bitcoin;
-            break;
-        case BTC_REGTEST:
-            network = bitcoin.networks.regtest;
-            break;
-        case BTC_TESTNET:
-            network = bitcoin.networks.testnet;
-            break;
-        default:
-            network = bitcoin.networks.bitcoin;
-            break;
-    }
+//     switch(_network) {
+//         case BTC_MAINNET:
+//             network = bitcoin.networks.bitcoin;
+//             break;
+//         case BTC_REGTEST:
+//             network = bitcoin.networks.regtest;
+//             break;
+//         case BTC_TESTNET:
+//             network = bitcoin.networks.testnet;
+//             break;
+//         default:
+//             network = bitcoin.networks.bitcoin;
+//             break;
+//     }
 
-    const account = new CryptoAccount(senderPrivateKey);
+//     const account = new CryptoAccount(senderPrivateKey);
 
-    const tx = await account.send(receiveAddress, amount, _network);
+//     const tx = await account.send(receiveAddress, amount, _network);
 
-    return response({
-        network: _network,
-        from: senderAddress,
-        to: receiveAddress,
-        amount: amount,
-        fee: gasFee,
-        tx: tx
-    })
-}
+//     return response({
+//         network: _network,
+//         from: senderAddress,
+//         to: receiveAddress,
+//         amount: amount,
+//         fee: gasFee,
+//         tx: tx
+//     })
+// }
 
 const BitcoinWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
-    [SEND_COIN]: sendBtc
+    // [SEND_COIN]: sendBtc
 }
 
 export default BitcoinWallet;

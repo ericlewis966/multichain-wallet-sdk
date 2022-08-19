@@ -3,11 +3,11 @@ import Wallet from './BitcoinWallet';
 import { 
     CreateWalletPayload,
     ImportWalletPayload,
-    TransferPaload
+    // TransferPaload
 } from '../../utils/payloads/bitcoin';
 
 import { 
-    CREATE_WALLET, IMPORT_WALLET, SEND_COIN 
+    CREATE_WALLET, IMPORT_WALLET 
 } from './../../utils/constant';
 
 /**
@@ -31,14 +31,14 @@ export async function importWallet(args: ImportWalletPayload) {
     return wallet;
 }
 
-/**
- * 
- * @param args 
- * @returns Raw transaction
- */
-export async function sendBtc(args: TransferPaload) {
-    const tx = await Wallet[SEND_COIN](args.network, args.senderPrivatekey, args.senderAddress, args.receiveAddress, args.amount, args?.gasFee);
+// /**
+//  * 
+//  * @param args 
+//  * @returns Raw transaction
+//  */
+// export async function sendBtc(args: TransferPaload) {
+//     const tx = await Wallet[SEND_COIN](args.network, args.senderPrivatekey, args.senderAddress, args.receiveAddress, args.amount, args?.gasFee);
 
-    return tx;
-}
+//     return tx;
+// }
 
