@@ -1,5 +1,6 @@
 import * as Ethereum from '../src/wallet/ethereum';
 import * as Solana from '../src/wallet/solana';
+import * as Bitcoin from '../src/wallet/bitcoin';
 
 interface EthWallet {
     address: string;
@@ -9,6 +10,12 @@ interface EthWallet {
 }
 
 interface SolWallet {
+    address: string;
+    privateKey: string;
+    mnemonic: string;
+}
+
+interface BtcWallet {
     address: string;
     privateKey: string;
     mnemonic: string;
@@ -126,5 +133,44 @@ describe('Solana Test', () => {
 
     //     expect(typeof tx).toBe('object');
     //     expect(typeof solBalance).toBe('object');
+    // })
+})
+
+describe('Test Bitcoin', () => {
+
+    let createdWallet: BtcWallet, importedWallet: BtcWallet, randomWallet: BtcWallet;
+
+    it('Create Wallet', async () => {
+        createdWallet = await Bitcoin.createWallet({
+            network: 'bitcoin'
+        })
+
+        randomWallet = await Bitcoin.createWallet({
+            network: 'bitcoin'
+        })
+
+        expect(typeof createdWallet).toBe('object');
+    })
+
+    it('Import Wallet', async () => {
+        importedWallet = await Bitcoin.importWallet({
+            network: 'bitcoin',
+            mnemonic: createdWallet.mnemonic
+        })
+
+        expect(typeof importedWallet).toBe('object');
+    })
+
+    // it('Create Raw Transaction', async () => {
+    //     const tx = await Bitcoin.sendBtc({
+    //         network: 'bitcoin',
+    //         senderPrivatekey: createdWallet.privateKey,
+    //         senderAddress: createdWallet.address,
+    //         receiveAddress: randomWallet.address,
+    //         amount: 10
+    //     })
+
+    //     expect(typeof tx).toBe('object');
+    //     console.log(tx);
     // })
 })

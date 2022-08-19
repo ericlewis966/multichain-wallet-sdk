@@ -16,6 +16,11 @@ export const ERC721_INTERFACE_ID = '0x80ac58cd';
 export const MAINNET_BETA:string = 'mainnet-beta';
 export const TESTNET:string = 'testnet';
 export const DEVNET:string = 'devnet';
+//Bitcoin network
+export const BTC_MAINNET = 'bitcoin';
+export const BTC_REGTEST = 'regtest';
+export const BTC_TESTNET = 'testnet';
+
 
 //Solana data API endpoint
 export const SOLANA_TOKENLIST_URI:string = 'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json';

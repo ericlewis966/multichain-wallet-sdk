@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "ES2015",
+        "module": "CommonJS",
         "lib": ["DOM", "ES2015"],
         "declaration": true,
         "outDir": "./dist",

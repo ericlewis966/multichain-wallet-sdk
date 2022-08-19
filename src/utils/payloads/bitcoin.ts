@@ -1,0 +1,20 @@
+
+export interface CreateWalletPayload {
+    network: string;
+    derivedPath?: string;
+}
+
+export interface ImportWalletPayload {
+    network: string;
+    mnemonic: string;
+    derivedPath?: string;
+}
+
+export interface TransferPaload {
+    network: string;
+    senderPrivatekey: string;
+    senderAddress: string;
+    receiveAddress: string;
+    amount: number;
+    gasFee?: number;
+}
