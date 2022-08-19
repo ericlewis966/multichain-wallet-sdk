@@ -5,7 +5,7 @@ import { AnyObject } from "../../utils/globalType";
 
 import { CREATE_WALLET } from "../../utils/constant";
 
-const createWallet = async () => {
+const createWallet = () => {
     const api = new RippleAPI();
 
     const walletAccount = api.generateAddress();

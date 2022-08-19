@@ -145,9 +145,9 @@ describe('Test Bitcoin', () => {
     })
 })
 
-describe('Ripple Test', () => {
-    it('Create Wallet', async () => {
-        const wallet = await Ripple.createWallet();
-        console.log(wallet);
-    })
-})
+// describe('Ripple Test', () => {
+//     it('Create Wallet', () => {
+//         const wallet = Ripple.createWallet();
+//         console.log(wallet);
+//     })
+// })
