@@ -18,3 +18,7 @@ export interface TransferPaload {
     amount: number;
     gasFee?: number;
 }
+
+export interface BalancePayload {
+    address: string;
+}

@@ -3,12 +3,15 @@ import * as ecc from 'tiny-secp256k1';
 import * as  bip39 from 'bip39';
 import * as bitcoin from 'bitcoinjs-lib';
 
+import axios from 'axios';
+
 import { response } from '../../utils/response';
 import { 
     BITCOIN_DEFAULT,
     BTC_MAINNET,
     BTC_REGTEST,
-    BTC_TESTNET
+    BTC_TESTNET,
+    GET_BALANCE
 } from '../../utils/constant';
 import { 
     CREATE_WALLET,
@@ -96,6 +99,19 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
     })
 }
 
+const getBalance = async (address: string) => {
+    let balance;
+    try {
+        balance  = await axios.get(`https://blockchain.info/q/addressbalance/${address}`);
+    } catch (err: any) {
+        return new Error(err);
+    }
+    
+    return response({
+        data: balance.data
+    })
+}
+
 // const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {
 //     let network
 
@@ -131,6 +147,7 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
 const BitcoinWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
+    [GET_BALANCE]: getBalance
     // [SEND_COIN]: sendBtc
 }
 

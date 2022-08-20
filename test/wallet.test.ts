@@ -3,6 +3,7 @@ import * as Solana from '../src/wallet/solana';
 import * as Bitcoin from '../src/wallet/bitcoin';
 import * as Ripple from '../src/wallet/ripple';
 
+
 interface EthWallet {
     address: string;
     privateKey: string;
@@ -20,6 +21,20 @@ interface BtcWallet {
     address: string;
     privateKey: string;
     mnemonic: string;
+}
+
+interface RootRippleWallet {
+    wallet: {
+        address: string;
+        secret: string;
+    }
+}
+
+interface NormalRippleWallet {
+    publicKey: string;
+    privateKey: string;
+    classicAddress: string;
+    seed: string;
 }
 
 describe('Ethereum Wallet Test', () => {
@@ -78,7 +93,7 @@ describe('Solana Test', () => {
 
     it('Create Wallet', async () => {
         const wallet = await Solana.createWallet({});
-        
+
         createdWallet = wallet;
 
         expect(typeof wallet).toBe('object');
@@ -94,7 +109,7 @@ describe('Solana Test', () => {
         expect(importedWallet).toEqual(wallet);
     })
 
-    it('Import Account', async () =>{
+    it('Import Account', async () => {
         const account = await Solana.importAccount({
             privateKey: importedWallet.privateKey
         });
@@ -131,7 +146,6 @@ describe('Test Bitcoin', () => {
         randomWallet = await Bitcoin.createWallet({
             network: 'bitcoin'
         })
-
         expect(typeof createdWallet).toBe('object');
     })
 
@@ -140,14 +154,37 @@ describe('Test Bitcoin', () => {
             network: 'bitcoin',
             mnemonic: createdWallet.mnemonic
         })
-
         expect(typeof importedWallet).toBe('object');
+    })
+
+    it('Get balance', async () => {
+        const balance = await Bitcoin.getBalance({
+            address: '34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo'
+        })
+        expect(typeof balance).toBe('object');
     })
 })
 
-// describe('Ripple Test', () => {
-//     it('Create Wallet', () => {
-//         const wallet = Ripple.createWallet();
-//         console.log(wallet);
-//     })
-// })
+describe('Ripple Test', () => {
+
+    let createdWallet: RootRippleWallet, importedWallet: NormalRippleWallet;
+
+    it('Create Wallet', async () => {
+        createdWallet = await Ripple.createWallet();
+        expect(typeof createdWallet).toBe('object');
+    })
+
+    it('Import Wallet', async () => {
+        importedWallet = await Ripple.importWallet({
+            secretKey: createdWallet.wallet.secret
+        });
+        expect(typeof importedWallet).toBe('object');
+    })
+
+    it('Get Balance', async () => {
+        const balance = await Ripple.getBalance({
+            address: 'rJmE49v6V6p6YLNZyncgCR6d1gs8DiVXJc'
+        })
+        expect(typeof balance).toBe('object');
+    })
+})
