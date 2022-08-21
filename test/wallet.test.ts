@@ -3,7 +3,6 @@ import * as Solana from '../src/wallet/solana';
 import * as Bitcoin from '../src/wallet/bitcoin';
 import * as Ripple from '../src/wallet/ripple';
 
-
 interface EthWallet {
     address: string;
     privateKey: string;

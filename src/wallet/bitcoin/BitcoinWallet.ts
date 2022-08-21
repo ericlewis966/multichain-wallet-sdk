@@ -4,6 +4,7 @@ import * as  bip39 from 'bip39';
 import * as bitcoin from 'bitcoinjs-lib';
 
 import axios from 'axios';
+import { fetchUTXOs } from '../../helper/bitcoinHelper';
 
 import { response } from '../../utils/response';
 import { 
@@ -112,43 +113,42 @@ const getBalance = async (address: string) => {
     })
 }
 
-// const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {
-//     let network
+const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {
+    let network
 
-//     switch(_network) {
-//         case BTC_MAINNET:
-//             network = bitcoin.networks.bitcoin;
-//             break;
-//         case BTC_REGTEST:
-//             network = bitcoin.networks.regtest;
-//             break;
-//         case BTC_TESTNET:
-//             network = bitcoin.networks.testnet;
-//             break;
-//         default:
-//             network = bitcoin.networks.bitcoin;
-//             break;
-//     }
+    switch(_network) {
+        case BTC_MAINNET:
+            network = bitcoin.networks.bitcoin;
+            break;
+        case BTC_REGTEST:
+            network = bitcoin.networks.regtest;
+            break;
+        case BTC_TESTNET:
+            network = bitcoin.networks.testnet;
+            break;
+        default:
+            network = bitcoin.networks.bitcoin;
+            break;
+    }
 
-//     const account = new CryptoAccount(senderPrivateKey);
+    const utxos = await fetchUTXOs(_network, senderAddress)
 
-//     const tx = await account.send(receiveAddress, amount, _network);
-
-//     return response({
-//         network: _network,
-//         from: senderAddress,
-//         to: receiveAddress,
-//         amount: amount,
-//         fee: gasFee,
-//         tx: tx
-//     })
-// }
+    return response({
+        provateKey: senderPrivateKey,
+        network: _network,
+        from: senderAddress,
+        to: receiveAddress,
+        amount: amount,
+        fee: gasFee,
+        utxos: utxos
+    })
+}
 
 const BitcoinWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
-    [GET_BALANCE]: getBalance
-    // [SEND_COIN]: sendBtc
+    [GET_BALANCE]: getBalance,
+    [SEND_COIN]: sendBtc
 }
 
 export default BitcoinWallet;
