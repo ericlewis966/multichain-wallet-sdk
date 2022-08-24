@@ -10,7 +10,7 @@ export async function isContractAddress(rpcUrl: string, address: string) {
             return true;
         else
             return false;
-    } catch (err) {
+    } catch {
         return false;
     }
 }

@@ -51,8 +51,8 @@ export const SOLANA_MAINNET_RPC_URL = 'https://solana-mainnet.phantom.app/YBPpkk
 export const RIPPLE_NETWORK_RPC_URL_1 = 'https://s1.ripple.com:51234/';
 export const RIPPLE_NETWORK_RPC_URL_2 = 'wss://s1.ripple.com/';
 
-export const RIPPLE_TESTNET_RPC_URL_1 = 'https://s.altnet.rippletest.net:51234';
+export const RIPPLE_TESTNET_RPC_URL_1 = 'https://s.altnet.rippletest.net:51234/';
 export const RIPPLE_TESTNET_RPC_URL_2 = 'wss://s.altnet.rippletest.net/';
 
-export const RIPPLE_DEVNET_RPC_URL_1 = 'https://s.devnet.rippletest.net:51234';
+export const RIPPLE_DEVNET_RPC_URL_1 = 'https://s.devnet.rippletest.net:51234/';
 export const RIPPLE_DEVNET_RPC_URL_2 = 'wss://s.devnet.rippletest.net/';
