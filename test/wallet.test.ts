@@ -1,7 +1,10 @@
+import { AnyObject } from '../src/utils/globalType';
+
 import * as Ethereum from '../src/wallet/ethereum';
 import * as Solana from '../src/wallet/solana';
 import * as Bitcoin from '../src/wallet/bitcoin';
 import * as Ripple from '../src/wallet/ripple';
+import * as Beacon from '../src/wallet/binance';
 
 interface EthWallet {
     address: string;
@@ -34,6 +37,13 @@ interface NormalRippleWallet {
     privateKey: string;
     classicAddress: string;
     seed: string;
+}
+
+interface BeaconWallet {
+    mnemonic: string,
+    privateKey: string,
+    publicKey: string,
+    address: string
 }
 
 describe('Ethereum Wallet Test', () => {
@@ -184,6 +194,31 @@ describe('Ripple Test', () => {
         const balance = await Ripple.getBalance({
             address: 'rJmE49v6V6p6YLNZyncgCR6d1gs8DiVXJc'
         })
+        expect(typeof balance).toBe('object');
+    })
+})
+
+describe('Beacon Test', () => {
+    let createdWallet: BeaconWallet, importedWallet: BeaconWallet;
+    it('Create Wallet', async () => {
+        createdWallet = Beacon.createWallet();
+        expect(createdWallet.address.length).toBeGreaterThan(0);
+    })
+
+    it('Import Wallet', async () => {
+        importedWallet = Beacon.importWallet({
+            mnemonic: createdWallet.mnemonic
+        })
+        expect(importedWallet).toStrictEqual(createdWallet);
+    })
+
+    it('Get Balance', async () => {
+        const balance = await Beacon.getBalance({
+            rpcUrl: 'https://dex.binance.org/',
+            address: 'bnb1mnun4frf99dcqa4u4e3z0f4mhv4vrgfpchn2l0',
+            network: 'mainnet'
+        })
+
         expect(typeof balance).toBe('object');
     })
 })

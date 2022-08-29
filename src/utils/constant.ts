@@ -9,6 +9,7 @@ export const RIPPLE: string = 'RIPPLE';
 export const ETHEREUM_DEFAULT: string = "m/44'/60'/0'/0/";
 export const SOLANA_DEFAULT: string = "m/44'/501'/0'/0'";
 export const BITCOIN_DEFAULT: string = "m/44'/0'/0'/0";
+export const BNB_BEACON_DEFAULT: string = "m/44'/714'/0'/0";
 
 //Ethereum Contract Data
 export const ERC721_INTERFACE_ID = '0x80ac58cd';
