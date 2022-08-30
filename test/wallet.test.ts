@@ -221,4 +221,5 @@ describe('Beacon Test', () => {
 
         expect(typeof balance).toBe('object');
     })
+    
 })

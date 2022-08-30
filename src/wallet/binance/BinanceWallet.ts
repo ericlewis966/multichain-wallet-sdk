@@ -15,7 +15,8 @@ import {
     IMPORT_WALLET,
     IMPORT_ACCOUNT,
     GET_BALANCE,
-    SEND_COIN
+    SEND_COIN,
+    TRANSFER_TOKEN
 } from "./../../utils/constant";
 
 import { AssetsPayload } from "../../utils/payloads/beacon";
@@ -85,12 +86,24 @@ const sendBNB = async (rpcUrl: string, privateKey: string, fromAddress: string, 
     })
 }
 
+const tokenTransfer = async (rpcUrl: string, privateKey: string, fromAddress: string, recipientAddress: string, amount: any, network: 'testnet' | 'mainnet', asset: string) => {
+    const client = new BncClient(rpcUrl);
+    client.chooseNetwork(network);
+    client.setPrivateKey(privateKey);
+
+    const tx = await client.transfer(fromAddress, recipientAddress, amount, asset);
+    return response({
+        tx
+    })
+}
+
 const BeaconWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
     [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
-    [SEND_COIN]: sendBNB
+    [SEND_COIN]: sendBNB,
+    [TRANSFER_TOKEN]: tokenTransfer
 }
 
 export default BeaconWallet;

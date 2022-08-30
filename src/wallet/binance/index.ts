@@ -1,10 +1,12 @@
+import { TokenTransferPayload } from './../../utils/payloads/beacon';
 import Wallet from './BinanceWallet';
 
 import { 
     CREATE_WALLET, 
     IMPORT_WALLET, 
     GET_BALANCE,
-    SEND_COIN
+    SEND_COIN,
+    TRANSFER_TOKEN
 } from "../../utils/constant";
 import { 
     ImportWalletPayload, 
@@ -29,7 +31,10 @@ export async function getBalance(args: GetBalancePayload) {
 
 export async function sendCion(args: SendBNBPayload) {
     const tx = await Wallet[SEND_COIN](args.rpcUrl, args.privateKey, args.fromAddress, args.recipientAddress, args.amount, args.network);
-    return ({
-        tx
-    })
+    return tx;
+}
+
+export async function tokenTransfer(args: TokenTransferPayload) {
+    const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.fromAddress, args.recipientAddress, args.amount, args.network, args.asset);
+    return tx;
 }

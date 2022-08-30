@@ -22,6 +22,16 @@ export interface SendBNBPayload {
     network: 'testnet' | 'mainnet';
 }
 
+export interface TokenTransferPayload {
+    rpcUrl: string;
+    privateKey: string;
+    fromAddress: string;
+    recipientAddress: string;
+    amount: any;
+    asset: string;
+    network: 'testnet' | 'mainnet';
+}
+
 export type AssetsPayload  = [
     {
         free: string;
