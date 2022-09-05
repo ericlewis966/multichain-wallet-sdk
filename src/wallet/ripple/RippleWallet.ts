@@ -1,6 +1,7 @@
 //@ts-ignore
 import rippleWallet from 'ripple-wallet';
-import xrpl, { Wallet, Client } from 'xrpl';
+import { Wallet, Client } from 'xrpl';
+import * as xrpl from 'xrpl';
 
 import { response } from "./../../utils/response";
 import { AnyObject } from "../../utils/globalType";
@@ -60,7 +61,6 @@ const sendXrp = async (secretKey: string, senderAddress: string, recipientAddres
     return response({
         tx: tx.result.meta
     })
-
 }
 
 const RippleWallet: AnyObject = {

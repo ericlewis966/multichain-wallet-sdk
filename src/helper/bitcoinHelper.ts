@@ -1,6 +1,6 @@
 import axios from "axios";
 import { shuffleArray, fallback } from "../utils/utils";
-import { AnyObject } from "utils/globalType";
+import { AnyObject } from "../utils/globalType";
 
 interface UTXO {
     readonly txHash: string;

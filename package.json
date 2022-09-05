@@ -1,19 +1,20 @@
 {
   "name": "vipay-multichain-wallet",
-  "version": "1.1.26",
+  "version": "1.1.36",
   "description": "",
-  "main": "dist/src.js",
+  "main": "build/dist/index.js",
+  "types": "build/dist/index.d.ts",
   "files": [
-    "src",
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
-    "build": "tsdx build",
+    "build": "babel --extensions .ts,.tsx ./src -d build/dist",
     "start": "tsdx watch",
     "test": "tsdx test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Chris.Kennedy@theblockjet.ae",
   "license": "ISC",
   "dependencies": {
     "@airgap/beacon-sdk": "^3.1.3",
@@ -58,6 +59,10 @@
   "type": "module",
   "devDependencies": {
     "@airgap/beacon-wallet": "^3.1.3",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
     "esbuild": "^0.15.5",
     "simple-bitcoin-wallet": "0.0.9",
     "typescript": "^4.7.4",
