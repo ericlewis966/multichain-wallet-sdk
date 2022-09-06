@@ -1,15 +1,16 @@
 {
   "name": "vipay-multichain-wallet",
-  "version": "1.1.36",
+  "version": "1.1.42",
   "description": "",
-  "main": "build/dist/index.js",
-  "types": "build/dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
-    "build": "babel --extensions .ts,.tsx ./src -d build/dist",
+    "build": "npm run build1 && npm run build2",
+    "build1": "tsc",
+    "build2": "babel --extensions .ts,.tsx ./src -d dist",
     "start": "tsdx watch",
     "test": "tsdx test"
   },
@@ -18,12 +19,14 @@
   "license": "ISC",
   "dependencies": {
     "@airgap/beacon-sdk": "^3.1.3",
+    "@babel/types": "^7.19.0",
     "@binance-chain/javascript-sdk": "^4.2.0",
     "@solana/buffer-layout": "^4.0.0",
     "@solana/spl-token": "^0.2.0",
     "@solana/web3.js": "^1.50.1",
     "@ts-bitcoin/core": "^2.2.0",
     "@types/bitcore-lib": "^0.15.3",
+    "@types/node-fetch": "^2.6.2",
     "assert": "^2.0.0",
     "axios": "^0.27.2",
     "bech32-buffer": "^0.2.0",
@@ -56,7 +59,6 @@
     "tslib": "^2.4.0",
     "xrpl": "^2.3.0"
   },
-  "type": "module",
   "devDependencies": {
     "@airgap/beacon-wallet": "^3.1.3",
     "@babel/cli": "^7.18.10",
