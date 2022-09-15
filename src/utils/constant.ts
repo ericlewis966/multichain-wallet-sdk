@@ -10,6 +10,7 @@ export const ETHEREUM_DEFAULT: string = "m/44'/60'/0'/0/";
 export const SOLANA_DEFAULT: string = "m/44'/501'/0'/0'";
 export const BITCOIN_DEFAULT: string = "m/44'/0'/0'/0";
 export const BNB_BEACON_DEFAULT: string = "m/44'/714'/0'/0";
+export const TRON_DEFAULT: string = "m/44'/195'/0/0";
 
 //Ethereum Contract Data
 export const ERC721_INTERFACE_ID = '0x80ac58cd';
@@ -57,3 +58,7 @@ export const RIPPLE_TESTNET_RPC_URL_2 = 'wss://s.altnet.rippletest.net/';
 
 export const RIPPLE_DEVNET_RPC_URL_1 = 'https://s.devnet.rippletest.net:51234/';
 export const RIPPLE_DEVNET_RPC_URL_2 = 'wss://s.devnet.rippletest.net/';
+
+export const TRON_MAINNET = '	https://api.trongrid.io';
+export const TRON_SHASTA_TESTNET = 'https://api.shasta.trongrid.io';
+export const TRON_NILE_TESTNET = 'https://nile.trongrid.io';
