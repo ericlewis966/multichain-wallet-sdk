@@ -232,4 +232,9 @@ describe('Tron Test', () => {
         const wallet = await Tron.createWallet();
         console.log(wallet);
     })
+
+    it('Get Balance', async () => {
+        const balance = await Tron.getBalance({address: 'TABWo715YJTqBndZfm4hUu5C4h9doonfZe'});
+        console.log(balance)
+    })
 })

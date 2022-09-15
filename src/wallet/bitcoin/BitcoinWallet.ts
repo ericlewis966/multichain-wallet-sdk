@@ -39,6 +39,7 @@ const createWallet = (_network: string, derivedPath?: string) => {
             network = bitcoin.networks.bitcoin;
             break;
     }
+    
     const path = derivedPath || BITCOIN_DEFAULT;
 
     const mnemonic = bip39.generateMnemonic();
