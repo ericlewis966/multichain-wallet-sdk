@@ -56,16 +56,18 @@ const createWallet = async (derivationPath?: string) => {
  * @param derivationPath
  * @returns Imported Wallet
  */
-const importWallet = async (mnemonic: string, nonce: number, derivationPath?: string) => {
+const importWallet = async (mnemonic: string, nonce?: number, derivationPath?: string) => {
     const path = derivationPath || ETHEREUM_DEFAULT;
 
-    const wallet = ethers.Wallet.fromMnemonic(mnemonic, path + nonce);
+    const index = nonce || 0;
+
+    const wallet = ethers.Wallet.fromMnemonic(mnemonic, path + index);
 
     return response({
         address: wallet.address,
         privateKey: wallet.privateKey,
         mnemonic: wallet.mnemonic.phrase,
-        nonce: nonce
+        nonce: index
     })
 }
 

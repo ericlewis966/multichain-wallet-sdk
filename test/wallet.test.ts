@@ -131,14 +131,14 @@ describe('Solana Test', () => {
 
     it('Get Balance', async () => {
         const solBalance = await Solana.getBalance({
-            rpcUrl: 'https://api.devnet.solana.com',
+            rpcUrl: 'https://api.testnet.solana.com',
             address: '9DSRMyr3EfxPzxZo9wMBPku7mvcazHTHfyjhcfw5yucA'
         })
 
         const tokenBalance = await Solana.getBalance({
-            rpcUrl: 'https://api.devnet.solana.com',
+            rpcUrl: 'https://api.mainnet-beta.solana.com',
             address: '9DSRMyr3EfxPzxZo9wMBPku7mvcazHTHfyjhcfw5yucA',
-            tokenAddress: '6xRPFqbtpkS7iVd9SysZDXdYn6iWceXF7p3T91N3EcAc'
+            tokenAddress: 'ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs'
         })
 
         expect(typeof solBalance).toBe('object');
@@ -181,17 +181,17 @@ describe('Ripple Test', () => {
 
     let createdWallet: RootRippleWallet, importedWallet: NormalRippleWallet;
 
-    // it('Create Wallet', async () => {
-    //     createdWallet = await Ripple.createWallet();
-    //     expect(typeof createdWallet).toBe('object');
-    // })
+    it('Create Wallet', async () => {
+        createdWallet = await Ripple.createWallet();
+        expect(typeof createdWallet).toBe('object');
+    })
 
-    // it('Import Wallet', async () => {
-    //     importedWallet = await Ripple.importWallet({
-    //         secretKey: createdWallet.wallet.secret
-    //     });
-    //     expect(typeof importedWallet).toBe('object');
-    // })
+    it('Import Wallet', async () => {
+        importedWallet = await Ripple.importWallet({
+            secretKey: createdWallet.wallet.secret
+        });
+        expect(typeof importedWallet).toBe('object');
+    })
 
     it('Get Balance', async () => {
         const balance = await Ripple.getBalance({

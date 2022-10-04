@@ -1,9 +1,8 @@
-// import * as Wallets from './wallet';
-
-// export default  Wallets
-import { Ethereum, Solana } from "./wallet";
+import { Ethereum, Solana, Bitcoin, Binance } from "./wallet";
 
 export = ({
     Ethereum,
-    Solana
+    Solana,
+    Bitcoin,
+    Binance
 });

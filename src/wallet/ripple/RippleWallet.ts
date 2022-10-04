@@ -1,5 +1,4 @@
-//@ts-ignore
-import rippleWallet from 'ripple-wallet';
+import * as rippleWallet from 'ripple-wallet';
 import { Wallet, Client } from 'xrpl';
 import * as xrpl from 'xrpl';
 

@@ -1,6 +1,6 @@
 {
   "name": "vipay-multichain-wallet",
-  "version": "1.1.46",
+  "version": "1.1.48",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

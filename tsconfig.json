@@ -15,7 +15,7 @@
     },
     "sourceMap": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "decs.d.ts"],
 }
 // {
 //   "compilerOptions": {
