@@ -1,6 +1,6 @@
 {
   "name": "vipay-multichain-wallet",
-  "version": "1.1.48",
+  "version": "1.1.52",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -78,5 +78,6 @@
     "simple-bitcoin-wallet": "0.0.9",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0"
-  }
+  },
+  "readme": "readme.md"
 }

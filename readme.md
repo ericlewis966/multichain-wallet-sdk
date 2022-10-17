@@ -5,12 +5,19 @@ npm install vipay-multichain-wallet
 ```
 ### import (es5)
 ```javascript
-const vipay = require('vipay-multichain-wallet/src');
+const vipay = require('vipay-multichain-wallet');
 ```
 ### import (es6)
 ```javascript
-import vipay from 'vipay-multichain-wallet/src';
+import vipay from 'vipay-multichain-wallet';
 ```
+
+### Create Wallet (Phrase words) using `common` function
+```javascript
+const mnemonic = vipay.Common.generateMnemonic();
+console.log(mnemonic); //sea gulp tiger cup zoo ...
+```
+
 ### functions (ethereum)
 - Create Wallet
 - Recover wallet from phrase words
@@ -107,8 +114,5 @@ const tx = await vipay.Solana.transfer({
 ```
 
 ### More blockchains and networks will be added.
-
-#### Estimated next update time: Aug 15 2022 :tw-1f551:
-
 
 ## Enjoy your work ~!!!
