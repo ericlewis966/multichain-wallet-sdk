@@ -1,6 +1,6 @@
 {
     "name": "vipay-multichain-wallet",
-    "version": "1.1.53",
+    "version": "1.1.54",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -54,6 +54,8 @@
         "mnemonic-to-key-pair": "^1.0.0",
         "mnemonic-to-private-key": "^0.4.1",
         "mocha": "^10.0.0",
+        "ripple-bip32": "^0.0.3",
+        "ripple-keypairs": "^1.1.4",
         "ripple-lib": "^1.10.1",
         "ripple-wallet": "^2.0.0",
         "safe-buffer": "^5.2.1",

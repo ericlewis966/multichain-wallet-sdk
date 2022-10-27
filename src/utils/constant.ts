@@ -45,6 +45,7 @@ export const GET_TRANSACTION: string = 'GET_TRANSACTION';
 //RPC_ENDPOINTS
 export const ETHERRUM_MAINNET_RPC_URL_1 = 'https://mainnet.infura.io/v3/';
 export const ETHEREUM_MAINNET_RPC_URL_2 = 'https://rpc.ankr.com/eth/';
+export const POLYGON_MAINNET_RPC_URL = 'https://polygon-rpc.com'
 
 export const SOLANA_DEVNET_RPC_URL = 'https://api.devnet.solana.com/';
 export const SOLANA_TESTNET_RPC_URL = 'https://api.testnet.solana.com/';
@@ -59,6 +60,6 @@ export const RIPPLE_TESTNET_RPC_URL_2 = 'wss://s.altnet.rippletest.net/';
 export const RIPPLE_DEVNET_RPC_URL_1 = 'https://s.devnet.rippletest.net:51234/';
 export const RIPPLE_DEVNET_RPC_URL_2 = 'wss://s.devnet.rippletest.net/';
 
-export const TRON_MAINNET = '	https://api.trongrid.io';
+export const TRON_MAINNET = 'https://api.trongrid.io';
 export const TRON_SHASTA_TESTNET = 'https://api.shasta.trongrid.io';
 export const TRON_NILE_TESTNET = 'https://nile.trongrid.io';
