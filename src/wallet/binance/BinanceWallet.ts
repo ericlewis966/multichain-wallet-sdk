@@ -16,7 +16,7 @@ import {
     IMPORT_ACCOUNT,
     GET_BALANCE,
     SEND_COIN,
-    TRANSFER_TOKEN
+    TRANSFER_TOKEN,
 } from "./../../utils/constant";
 
 import { AssetsPayload } from "../../utils/payloads/beacon";

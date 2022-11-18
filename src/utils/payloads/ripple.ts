@@ -2,6 +2,10 @@ export interface ImportWalletPayload {
     secretKey: string;
 }
 
+export interface ImportAccountPayload {
+    privateKey: string
+}
+
 export interface BalancePayload {
     address: string;
     rpcUrl?: string;

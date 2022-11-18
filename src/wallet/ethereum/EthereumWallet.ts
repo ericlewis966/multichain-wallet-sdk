@@ -120,7 +120,6 @@ const getBalance = async (rpcUrl: string, address: string) => {
 
     const balance = await provider.getBalance(address);
     return response({
-        address: address,
         balance: balance
     })
 }
@@ -168,8 +167,6 @@ const getToken = async (tokenAddress: string, rpcUrl: string, address: string) =
                     balance: balance,
                     isNft: isNft
                 })
-                console.log("ERRROR in NFT", err);
-                return err; 
             }
         } else {
             contract = new ethers.Contract(tokenAddress, ERC20, provider);

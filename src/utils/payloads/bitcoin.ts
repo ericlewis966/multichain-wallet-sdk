@@ -10,6 +10,12 @@ export interface ImportWalletPayload {
     derivedPath?: string;
 }
 
+export interface ImportAccountPayload {
+    network: string;
+    privateKey: string;
+    derivedPath?: string;
+}
+
 export interface TransferPaload {
     network: string;
     senderPrivatekey: string;

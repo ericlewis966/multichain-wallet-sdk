@@ -1,3 +1,4 @@
+import { derivePath } from 'ed25519-hd-key';
 import BIP32Factory from 'bip32';
 import * as ecc from 'tiny-secp256k1';
 import * as  bip39 from 'bip39';
@@ -17,9 +18,11 @@ import {
 import { 
     CREATE_WALLET,
     IMPORT_WALLET,
+    IMPORT_ACCOUNT,
     SEND_COIN
 } from '../../utils/constant';
 import { AnyObject } from '../../utils/globalType';
+import { PrivateKey } from 'bitcore-lib';
 
 const createWallet = (_network: string, derivedPath?: string) => {
 
@@ -93,11 +96,43 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
         pubkey: node.publicKey,
         network: network
     }).address;
-    
+
     return response({
         address: address,
         privateKey: node.toWIF(),
         mnemonic: mnemonic
+    })
+}
+
+const importAccount = async (_network: string, _privateKey: string) => {
+    let network;
+
+    switch(_network) {
+        case BTC_MAINNET:
+            network = bitcoin.networks.bitcoin;
+            break;
+        case BTC_REGTEST:
+            network = bitcoin.networks.regtest;
+            break;
+        case BTC_TESTNET:
+            network = bitcoin.networks.testnet;
+            break;
+        default:
+            network = bitcoin.networks.bitcoin;
+            break;
+    }
+
+    const privateKey = new PrivateKey(_privateKey);
+    const publicKey = privateKey.publicKey.toBuffer();
+
+    const address = bitcoin.payments.p2pkh({
+        pubkey: publicKey,
+        network: network
+    }).address;
+
+    return response({
+        address: address,
+        privateKey: _privateKey,
     })
 }
 
@@ -148,6 +183,7 @@ const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress
 const BitcoinWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
+    [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
     [SEND_COIN]: sendBtc
 }

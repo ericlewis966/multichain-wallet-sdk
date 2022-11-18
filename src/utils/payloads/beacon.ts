@@ -6,6 +6,10 @@ export interface ImportWalletPayload {
     mnemonic: string;
 }
 
+export interface ImportAccountPayload {
+    privateKey: string;
+}
+
 export interface GetBalancePayload {
     rpcUrl: string;
     address: string;

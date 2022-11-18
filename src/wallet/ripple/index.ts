@@ -2,12 +2,14 @@ import Wallet from './RippleWallet';
 import { 
     CREATE_WALLET,
     IMPORT_WALLET,
+    IMPORT_ACCOUNT,
     GET_BALANCE,
     SEND_COIN
 } from '../../utils/constant';
 
 import { 
     ImportWalletPayload,
+    ImportAccountPayload,
     BalancePayload,
     TransferPayload 
 } from '../../utils/payloads/ripple';
@@ -29,6 +31,11 @@ export async function createWallet() {
 export async function importWallet(args: ImportWalletPayload) {
     const wallet = await Wallet[IMPORT_WALLET](args.secretKey);
     return wallet;
+}
+
+export async function importAccount(args: ImportAccountPayload) {
+    const wallet = await Wallet[IMPORT_ACCOUNT](args.privateKey)
+    return wallet
 }
 
 /**

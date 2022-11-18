@@ -1,6 +1,6 @@
 {
     "name": "vipay-multichain-wallet",
-    "version": "1.1.54",
+    "version": "1.1.55",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -20,6 +20,8 @@
         "@babel/types": "^7.19.0",
         "@binance-chain/javascript-sdk": "^4.2.0",
         "@faast/tron-payments": "^4.7.0",
+        "@hashgraph/sdk": "^2.18.6",
+        "@hethers/wallet": "^1.2.1",
         "@solana/buffer-layout": "^4.0.0",
         "@solana/spl-token": "^0.2.0",
         "@solana/web3.js": "^1.50.1",

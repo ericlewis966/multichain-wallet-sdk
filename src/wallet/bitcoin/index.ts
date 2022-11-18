@@ -3,6 +3,7 @@ import Wallet from './BitcoinWallet';
 import { 
     CreateWalletPayload,
     ImportWalletPayload,
+    ImportAccountPayload,
     BalancePayload,
     TransferPaload
 } from '../../utils/payloads/bitcoin';
@@ -11,7 +12,8 @@ import {
     CREATE_WALLET, 
     IMPORT_WALLET, 
     GET_BALANCE,
-    SEND_COIN
+    SEND_COIN,
+    IMPORT_ACCOUNT
 } from './../../utils/constant';
 
 /**
@@ -33,6 +35,16 @@ export async function createWallet(args: CreateWalletPayload) {
 export async function importWallet(args: ImportWalletPayload) {
     const wallet = await Wallet[IMPORT_WALLET](args.network, args.mnemonic, args?.derivedPath)
     return wallet;
+}
+
+/**
+ * 
+ * @param args 
+ * @returns BTC wallet
+ */
+export async function importAccount(args: ImportAccountPayload) {
+    const wallet = await Wallet[IMPORT_ACCOUNT](args.network, args.privateKey, args?.derivedPath)
+    return wallet
 }
 
 /**

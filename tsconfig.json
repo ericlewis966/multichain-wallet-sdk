@@ -11,8 +11,9 @@
     "baseUrl": ".",
     "rootDir": "src",
     "paths": {
-      "*": ["src/*", "node_modules/*"]
+      "*": ["src/*", "node_modules/*"],
     },
+    "esModuleInterop": true,
     "sourceMap": false
   },
   "include": ["src/**/*", "decs.d.ts"],

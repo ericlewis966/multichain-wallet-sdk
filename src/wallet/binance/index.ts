@@ -1,9 +1,9 @@
-import { TokenTransferPayload } from './../../utils/payloads/beacon';
 import Wallet from './BinanceWallet';
 
 import { 
     CREATE_WALLET, 
-    IMPORT_WALLET, 
+    IMPORT_WALLET,
+    IMPORT_ACCOUNT,
     GET_BALANCE,
     SEND_COIN,
     TRANSFER_TOKEN
@@ -11,7 +11,9 @@ import {
 import { 
     ImportWalletPayload, 
     GetBalancePayload,
-    SendBNBPayload
+    SendBNBPayload,
+    TokenTransferPayload,
+    ImportAccountPayload
 } from "../../utils/payloads/beacon";
 
 export function createWallet () {
@@ -21,6 +23,11 @@ export function createWallet () {
 
 export function importWallet(args: ImportWalletPayload) {
     const wallet = Wallet[IMPORT_WALLET](args.mnemonic);
+    return wallet;
+}
+
+export function importAccount(args: ImportAccountPayload) {
+    const wallet = Wallet[IMPORT_ACCOUNT](args.privateKey);
     return wallet;
 }
 

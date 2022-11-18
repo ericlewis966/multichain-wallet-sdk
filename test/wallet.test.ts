@@ -7,6 +7,18 @@ import * as Ripple from "../src/wallet/ripple";
 import * as Beacon from "../src/wallet/binance";
 import * as Tron from "../src/wallet/tron";
 
+import 
+{ 
+    POLYGON_MAINNET_RPC_URL, 
+    BINANCE_SMART_CHAIN_RPC_URL,
+    AVALANCH_NETWORK_RPC_URL,
+    FANTOM_OPERA_MAINNET_RPC_URL,
+    ARBITRUM_ONE_MAINNET_RPC_URL,
+    CRONOS_MAINNET_RPC_URL,
+    ETHEREUM_MAINNET_RPC_URL_2,
+    SOLANA_MAINNET_RPC_URL
+} from "../src/utils/constant";
+
 interface EthWallet {
     address: string;
     privateKey: string;
@@ -48,54 +60,350 @@ interface BeaconWallet {
 
 jest.setTimeout(50000);
 
-describe("Ethereum Wallet Test", () => {
-    let createdWallet: EthWallet, importedWallet: EthWallet;
-
-    it("Create Wallet", async () => {
-        createdWallet = await Ethereum.createWallet({});
-
-        expect(typeof createdWallet).toBe("object");
-    });
-
-    it("Import Wallet", async () => {
-        importedWallet = await Ethereum.importWallet({
-            mnemonic: createdWallet.mnemonic,
-            nonce: createdWallet.nonce,
+describe("EVM class blockchain Test", () => {
+    describe("Ethereum Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
         });
-
-        expect(importedWallet).toEqual(createdWallet);
-    });
-
-    it("Create master seed & account", async () => {
-        const seed = await Ethereum.createMasterSeed({
-            mnemonic: createdWallet.mnemonic,
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
         });
-
-        const account = await Ethereum.createAccount({
-            rootKey: seed,
-            nonce: 0,
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
         });
-
-        expect(typeof account).toBe("object");
-    });
-
-    it("Import Account", async () => {
-        const account = await Ethereum.importAccount({
-            privateKey: importedWallet.privateKey,
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
         });
-
-        expect(typeof account).toBe("object");
-    });
-
-    it("Get Balance", async () => {
-        const balance = await Ethereum.getBalance({
-            defaultProviderRpcUrl: "https://bsc-dataseed1.defibit.io/",
-            address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: ETHEREUM_MAINNET_RPC_URL_2,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
         });
-
-        expect(typeof balance).toBe("object");
     });
-});
+    
+    describe("Polygon Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: POLYGON_MAINNET_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+    
+    describe("Binance Smart Chain Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: BINANCE_SMART_CHAIN_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+    
+    describe("Avalanch Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: AVALANCH_NETWORK_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+    
+    describe("Fantom Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: FANTOM_OPERA_MAINNET_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+    
+    describe("Arbitrum Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: ARBITRUM_ONE_MAINNET_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+    
+    describe("Cronos Wallet Test", () => {
+        let createdWallet: EthWallet, importedWallet: EthWallet;
+    
+        it("Create Wallet", async () => {
+            createdWallet = await Ethereum.createWallet({});
+    
+            expect(typeof createdWallet).toBe("object");
+        });
+    
+        it("Import Wallet", async () => {
+            importedWallet = await Ethereum.importWallet({
+                mnemonic: createdWallet.mnemonic,
+                nonce: createdWallet.nonce,
+            });
+    
+            expect(importedWallet).toEqual(createdWallet);
+        });
+    
+        it("Create master seed & account", async () => {
+            const seed = await Ethereum.createMasterSeed({
+                mnemonic: createdWallet.mnemonic,
+            });
+    
+            const account = await Ethereum.createAccount({
+                rootKey: seed,
+                nonce: 0,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: importedWallet.privateKey,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+    
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: CRONOS_MAINNET_RPC_URL,
+                address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
+            });
+    
+            expect(typeof balance).toBe("object");
+        });
+    });
+})
 
 describe("Solana Test", () => {
     let createdWallet: SolWallet, importedWallet: SolWallet;
@@ -128,12 +436,12 @@ describe("Solana Test", () => {
 
     it("Get Balance", async () => {
         const solBalance = await Solana.getBalance({
-            rpcUrl: "https://api.testnet.solana.com",
+            rpcUrl: SOLANA_MAINNET_RPC_URL,
             address: "9DSRMyr3EfxPzxZo9wMBPku7mvcazHTHfyjhcfw5yucA",
         });
 
         const tokenBalance = await Solana.getBalance({
-            rpcUrl: "https://api.testnet.solana.com",
+            rpcUrl: SOLANA_MAINNET_RPC_URL,
             address: "9DSRMyr3EfxPzxZo9wMBPku7mvcazHTHfyjhcfw5yucA",
             tokenAddress: "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs",
         });
@@ -164,6 +472,16 @@ describe("Test Bitcoin", () => {
             network: "bitcoin",
             mnemonic: createdWallet.mnemonic,
         });
+
+        expect(typeof importedWallet).toBe("object");
+    });
+
+    it("Import Account", async () => {
+        importedWallet = await Bitcoin.importAccount({
+            network: "bitcoin",
+            privateKey: createdWallet.privateKey,
+        });
+
         expect(typeof importedWallet).toBe("object");
     });
 
@@ -180,7 +498,6 @@ describe("Ripple Test", () => {
 
     it("Create Wallet", async () => {
         createdWallet = await Ripple.createWallet();
-        console.log(createdWallet);
         expect(typeof createdWallet).toBe("object");
     });
 
@@ -188,7 +505,6 @@ describe("Ripple Test", () => {
         importedWallet = await Ripple.importWallet({
             secretKey: "luggage flip infant wife pear forest ugly canyon elite one bread finger",
         });
-        console.log(importedWallet);
         expect(typeof importedWallet).toBe("object");
     });
 
@@ -211,7 +527,16 @@ describe("Beacon Test", () => {
         importedWallet = Beacon.importWallet({
             mnemonic: createdWallet.mnemonic,
         });
+
         expect(importedWallet).toStrictEqual(createdWallet);
+    });
+
+    it("Import Account", async () => {
+        const importedAccount = Beacon.importAccount({
+            privateKey: createdWallet.privateKey,
+        });
+
+        expect(typeof importedAccount).toBe('object');
     });
 
     it("Get Balance", async () => {
@@ -226,9 +551,26 @@ describe("Beacon Test", () => {
 });
 
 describe("Tron Test", () => {
+
+    var createdWallet: AnyObject, importedWallet: AnyObject, importedAccount: AnyObject;
+
     it("Create Wallet", async () => {
-        const wallet = await Tron.createWallet();
+        createdWallet = await Tron.createWallet();
+        expect(typeof createdWallet).toBe('object')
     });
+
+    it("Import Wallet", async () => {
+        importedWallet = await Tron.importWallet({ mnemonic: createdWallet.mnemonic })
+        expect(importedWallet).toStrictEqual(createdWallet)
+    })
+
+    it("Import Account", async () => {
+        importedAccount = await Tron.importAccount({
+            privateKey: importedWallet.privateKey
+        })
+
+        expect(importedAccount.address).toStrictEqual(importedWallet.address)
+    })
 
     it("Get Balance", async () => {
         const balance = await Tron.getBalance({
