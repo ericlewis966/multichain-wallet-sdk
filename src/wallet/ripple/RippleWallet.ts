@@ -4,7 +4,8 @@ import { Wallet, Client } from "xrpl";
 import * as xrpl from "xrpl";
 import * as bip39 from 'bip39';
 
-import { response } from "./../../utils/response";
+import { response, walletResponse, balanceResponse } from "./../../utils/response";
+import { BalanceResponse } from "../../utils/responses/ripple";
 import { AnyObject } from "../../utils/globalType";
 
 import {
@@ -13,6 +14,7 @@ import {
     IMPORT_ACCOUNT,
     SEND_COIN,
     GET_BALANCE,
+    GET_BALANCES,
     RIPPLE_NETWORK_RPC_URL_2,
 } from "../../utils/constant";
 
@@ -22,10 +24,10 @@ const createWallet = async () => {
     // const wallet = rippleWallet.generate();
     // const address = RippleAddress.fromPublicKey(wallet.publicKey);
 
-    return response({
-        ...wallet,
+    return walletResponse({
+        address: wallet.address,
+        privateKey: wallet.privateKey,
         mnemonic,
-        // address
     });
 };
 
@@ -34,8 +36,9 @@ const importWallet = async (mnemonic: string) => {
     const wallet = await Wallet.fromMnemonic(mnemonic);
     // const address = RippleAddress.fromPublicKey(wallet.publicKey);
 
-    return response({
-       ... wallet,
+    return walletResponse({
+       address: wallet.address,
+       privateKey: wallet.privateKey,
        mnemonic,
     //    address
     });
@@ -44,9 +47,20 @@ const importWallet = async (mnemonic: string) => {
 const importAccount = async (secretKey: string) => {
 
     const account = await Wallet.fromSeed(secretKey);
-    return response({
-        account,
+    return walletResponse({
+        address: account.address,
+        privateKey: account.privateKey,
+        publicKey: account.publicKey
     });
+};
+
+const getBalances = async (address: string, rpcUrl?: string) => {
+    const client = new Client(rpcUrl || RIPPLE_NETWORK_RPC_URL_2);
+    await client.connect();
+
+    const balances = await client.getBalances(address);
+
+    return response(balances);
 };
 
 const getBalance = async (address: string, rpcUrl?: string) => {
@@ -54,10 +68,9 @@ const getBalance = async (address: string, rpcUrl?: string) => {
     await client.connect();
 
     const balances = await client.getBalances(address);
+    const balance = balances.filter((item: BalanceResponse) => item.currency === 'XRP')[0]['value']
 
-    return response({
-        data: balances,
-    });
+    return balanceResponse( balance );
 };
 
 const sendXrp = async (
@@ -94,6 +107,7 @@ const RippleWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
     [IMPORT_ACCOUNT]: importAccount,
+    [GET_BALANCES]: getBalances,
     [GET_BALANCE]: getBalance,
     [SEND_COIN]: sendXrp,
 };

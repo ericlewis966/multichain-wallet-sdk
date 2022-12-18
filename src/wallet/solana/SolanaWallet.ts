@@ -20,7 +20,8 @@ import {
     GET_TOKEN,
     GET_TRANSACTION,
     GET_TOKEN_LIST,
-    GET_BALANCE
+    GET_BALANCE,
+    GET_BALANCES
 } from "../../utils/constant";
 import {
     ISplTokenInfo,
@@ -29,7 +30,7 @@ import {
 import { AnyObject } from "../../utils/globalType";
 import { SOLANA_DEFAULT } from "../../utils/constant";
 import { SOLANA_TOKENLIST_URI } from "../../utils/constant";
-import { response } from "../../utils/response";
+import { response, walletResponse, balanceResponse } from "../../utils/response";
 import axios from "axios";
 
 export const ACCOUNT_LAYOUT = BufferLayout.struct([
@@ -64,16 +65,12 @@ const getBalance = async (rpcUrl: string, address: string, tokenAddress?: string
             );
 
             balance = account.value.length > 0 ? ACCOUNT_LAYOUT.decode(account.value[0].account.data).amount : 0;
-            return response({
-                balance
-            });
+            return balanceResponse( balance );
         }
         const publicKey = new solanaWeb3.PublicKey(address);
         balance = await connection.getBalance(publicKey);
-
-        return response({
-            balance
-        });
+        
+        return balanceResponse( balance );
     } catch (err) {
         throw err;
     }
@@ -88,7 +85,7 @@ const createWallet = async (derivedPath?: string) => {
 
     const keyPair = solanaWeb3.Keypair.fromSeed(derivedSeed);
 
-    return response({
+    return walletResponse({
         address: keyPair.publicKey.toBase58(),
         privateKey: bs58.encode(keyPair.secretKey),
         mnemonic
@@ -101,7 +98,7 @@ const importWallet = async (mnemonic: string, derivedPath: string) => {
     const derivedSeed = derivePath(path, (seed as unknown) as string).key;
     const keyPair = solanaWeb3.Keypair.fromSeed(derivedSeed);
 
-    return response({
+    return walletResponse({
         address: keyPair.publicKey.toBase58(),
         privateKey: bs58.encode(keyPair.secretKey),
         mnemonic
@@ -119,7 +116,7 @@ const importAccount = async (privateKey: string) => {
     const secretKey = bs58.decode(privateKey);
     const keyPair = solanaWeb3.Keypair.fromSecretKey(secretKey, { skipValidation: true });
 
-    return response({
+    return walletResponse({
         address: keyPair.publicKey.toBase58(),
         privateKey: privateKey
     })

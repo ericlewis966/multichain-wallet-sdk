@@ -7,7 +7,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
 import { fetchUTXOs } from '../../helper/bitcoinHelper';
 
-import { response } from '../../utils/response';
+import { response, walletResponse, balanceResponse } from '../../utils/response';
 import { 
     BITCOIN_DEFAULT,
     BTC_MAINNET,
@@ -51,14 +51,14 @@ const createWallet = (_network: string, derivedPath?: string) => {
     const root = bip32.fromSeed(seed, network);
 
     const account = root.derivePath(path);
-    const node = account.derive(0).derive(0);
+    const node = account.derive(0);
 
     const address = bitcoin.payments.p2pkh({
         pubkey: node.publicKey,
         network: network
     }).address;
     
-    return response({
+    return walletResponse({
         address: address,
         privateKey: node.toWIF(),
         mnemonic: mnemonic
@@ -90,14 +90,14 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
     const root = bip32.fromSeed(seed, network);
 
     const account = root.derivePath(path);
-    const node = account.derive(0).derive(0);
+    const node = account.derive(0);
 
     const address = bitcoin.payments.p2pkh({
         pubkey: node.publicKey,
         network: network
     }).address;
 
-    return response({
+    return walletResponse({
         address: address,
         privateKey: node.toWIF(),
         mnemonic: mnemonic
@@ -130,7 +130,7 @@ const importAccount = async (_network: string, _privateKey: string) => {
         network: network
     }).address;
 
-    return response({
+    return walletResponse({
         address: address,
         privateKey: _privateKey,
     })
@@ -144,9 +144,7 @@ const getBalance = async (address: string) => {
         return new Error(err);
     }
     
-    return response({
-        data: balance.data
-    })
+    return balanceResponse( balance.data )
 }
 
 const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress: string, receiveAddress: string, amount: number, gasFee?: number) => {

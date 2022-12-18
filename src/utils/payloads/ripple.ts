@@ -6,6 +6,11 @@ export interface ImportAccountPayload {
     privateKey: string
 }
 
+export interface BalancesPayload {
+    address: string;
+    rpcUrl?: string;
+}
+
 export interface BalancePayload {
     address: string;
     rpcUrl?: string;

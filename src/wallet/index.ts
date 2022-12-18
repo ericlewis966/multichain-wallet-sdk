@@ -5,3 +5,4 @@ export * as Binance from "./binance";
 export * as Ripple from "./ripple";
 export * as Tron from "./tron";
 export * as Common from "./common";
+export * as Stellar from "./stellar";

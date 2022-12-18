@@ -7,7 +7,7 @@ import {
 
 import { BncClient } from "@binance-chain/javascript-sdk/lib/client";
 
-import { response } from '../../utils/response';
+import { response, walletResponse, balanceResponse } from '../../utils/response';
 
 import { AnyObject } from "../../utils/globalType";
 import { 
@@ -27,7 +27,7 @@ const createWallet = () => {
     const publicKey = getPublicKeyFromPrivateKey(privateKey);
     const address = getAddressFromPublicKey(publicKey, 'bnb');
 
-    return response({
+    return walletResponse({
         mnemonic,
         privateKey,
         publicKey,
@@ -40,7 +40,7 @@ const importWallet = (mnemonic: string) => {
     const publicKey = getPublicKeyFromPrivateKey(privateKey);
     const address = getAddressFromPublicKey(publicKey, 'bnb');
 
-    return response({
+    return walletResponse({
         mnemonic,
         privateKey,
         publicKey,
@@ -52,7 +52,7 @@ const importAccount = (privateKey: string) => {
     const publicKey = getPublicKeyFromPrivateKey(privateKey);
     const address = getAddressFromPublicKey(publicKey, 'bnb');
 
-    return response({
+    return walletResponse({
         privateKey,
         publicKey,
         address
@@ -65,13 +65,9 @@ const getBalance = async (rpcUrl: string, address: string, network: 'testnet' | 
     const balance: AssetsPayload = await client.getBalance(address);
 
     if(balance.length <= 0 || balance == null || balance == undefined || !balance.filter(asset => asset.symbol === 'BNB')) {
-        return response({
-            balance: 0
-        })
+        return balanceResponse(0)
     } else {
-        return response({
-            balance: balance.filter(asset => {return asset.symbol === 'BNB'})[0].free
-        })
+        return balanceResponse( balance.filter(asset => {return asset.symbol === 'BNB'})[0].free )
     }
 }
 

@@ -6,6 +6,10 @@ import * as Bitcoin from "../src/wallet/bitcoin";
 import * as Ripple from "../src/wallet/ripple";
 import * as Beacon from "../src/wallet/binance";
 import * as Tron from "../src/wallet/tron";
+import * as Hedera from "../src/wallet/hedera";
+import * as Stellar from "../src/wallet/stellar";
+import * as Cardano from "../src/wallet/cardano";
+import * as Litecoin from "../src/wallet/litecoin";
 
 import 
 { 
@@ -106,7 +110,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -155,7 +159,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -204,7 +208,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -253,7 +257,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -302,7 +306,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -351,7 +355,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
     
@@ -400,7 +404,7 @@ describe("EVM class blockchain Test", () => {
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
     
-            expect(typeof balance).toBe("object");
+            expect(typeof balance).toBe("number");
         });
     });
 })
@@ -446,8 +450,8 @@ describe("Solana Test", () => {
             tokenAddress: "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs",
         });
 
-        expect(typeof solBalance).toBe("object");
-        expect(typeof tokenBalance).toBe("object");
+        expect(typeof solBalance).toBe("number");
+        expect(typeof tokenBalance).toBe("number");
     });
 });
 
@@ -470,7 +474,7 @@ describe("Test Bitcoin", () => {
     it("Import Wallet", async () => {
         importedWallet = await Bitcoin.importWallet({
             network: "bitcoin",
-            mnemonic: createdWallet.mnemonic,
+            mnemonic: "luggage flip infant wife pear forest ugly canyon elite one bread finger",
         });
 
         expect(typeof importedWallet).toBe("object");
@@ -489,7 +493,8 @@ describe("Test Bitcoin", () => {
         const balance = await Bitcoin.getBalance({
             address: "34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo",
         });
-        expect(typeof balance).toBe("object");
+
+        expect(typeof balance).toBe("number");
     });
 });
 
@@ -508,11 +513,20 @@ describe("Ripple Test", () => {
         expect(typeof importedWallet).toBe("object");
     });
 
+    it("Get Balances", async () => {
+        const balance = await Ripple.getBalances({
+            address: "rJmE49v6V6p6YLNZyncgCR6d1gs8DiVXJc",
+        });
+
+        expect(typeof balance).toBe("object");
+    });
+
     it("Get Balance", async () => {
         const balance = await Ripple.getBalance({
             address: "rJmE49v6V6p6YLNZyncgCR6d1gs8DiVXJc",
         });
-        expect(typeof balance).toBe("object");
+
+        expect(typeof balance).toBe("string");
     });
 });
 
@@ -546,12 +560,11 @@ describe("Beacon Test", () => {
             network: "mainnet",
         });
 
-        expect(typeof balance).toBe("object");
+        expect(typeof balance).toBe("string");
     });
 });
 
 describe("Tron Test", () => {
-
     var createdWallet: AnyObject, importedWallet: AnyObject, importedAccount: AnyObject;
 
     it("Create Wallet", async () => {
@@ -568,7 +581,6 @@ describe("Tron Test", () => {
         importedAccount = await Tron.importAccount({
             privateKey: importedWallet.privateKey
         })
-
         expect(importedAccount.address).toStrictEqual(importedWallet.address)
     })
 
@@ -578,3 +590,107 @@ describe("Tron Test", () => {
         });
     });
 });
+
+// describe("Hedera Test", () => {
+//     it("Create Wallet", async () => {
+//         const wallet = await Hedera.createWallet()
+//         console.log(wallet)
+//     })
+// })
+
+
+describe("Stellar Test", () => {
+    it("Create Wallet", async () => {
+        const wallet = await Stellar.createWallet()
+    })
+
+    it("Import Wallet", async () => {
+        const wallet = await Stellar.importAccount({ privateKey: 'SAI7SDNUOA35ROASVNZJETIIA4HC37SG3ADHWMBTXBMN2RAPTWSP2LVR' })
+    })
+
+    it("Send Coint", async () => {
+        const wallet = await Stellar.createWallet()
+
+        const result = await Stellar.sendCoin({ 
+            privateKey: 'SAI7SDNUOA35ROASVNZJETIIA4HC37SG3ADHWMBTXBMN2RAPTWSP2LVR',
+            toAddress: wallet.address,
+            amount: '100',
+            isTestnet: true,
+            activate: true
+        })
+    })
+
+    it("Get Balances", async () => {
+        const balances = await Stellar.getBalances({ 
+            publicKey: 'GDUY7J7A33TQWOSOQGDO776GGLM3UQERL4J3SPT56F6YS4ID7MLDERI4',
+            isTestnet: false
+        })
+
+        expect(typeof balances).toBe("object")
+    })
+
+    it("Get Balance", async () => {
+        const balance = await Stellar.getBalance({ 
+            publicKey: 'GDUY7J7A33TQWOSOQGDO776GGLM3UQERL4J3SPT56F6YS4ID7MLDERI4',
+            isTestnet: false
+        })
+
+        expect(typeof balance).toBe("string")
+    })
+})
+
+describe("Cardano Test", () => {
+    it("Create Wallet", async () => {
+        const wallet = await Cardano.createWallet()
+        console.log(wallet)
+    })
+
+    it("Import Wallet", async () => {
+        const wallet = await Cardano.importWallet({ 
+            mnemonic: "luggage flip infant wife pear forest ugly canyon elite one bread finger" })
+
+        console.log(wallet)
+    })
+
+    it("Get Balances", async () => {
+        const balances = await Cardano.getBalances({address: 'addr_test1qp0fkj8x2peran90hvq3x8j9sp276e2d3q95wr7apsqrf73jkerthfqjpegfypm2ddcv27rs7c5z80ve2luj69ap0guqag3efu', network: 'preview' })
+
+        console.log(balances)
+    })
+
+    it("Get Balance", async () => {
+        const balance = await Cardano.getBalance({address: 'addr_test1qp0fkj8x2peran90hvq3x8j9sp276e2d3q95wr7apsqrf73jkerthfqjpegfypm2ddcv27rs7c5z80ve2luj69ap0guqag3efu', network: 'preview' })
+
+        console.log(balance)
+    })
+
+    // it("Send Balance", async () => {
+    //     const wallet = await Cardano.importWallet({ 
+    //         mnemonic: "luggage flip infant wife pear forest ugly canyon elite one bread finger" })
+
+    //     const result = await Cardano.sendAda({
+    //         paymentKey: wallet.paymentKey,
+    //         fromAddress: 'addr_test1qp0fkj8x2peran90hvq3x8j9sp276e2d3q95wr7apsqrf73jkerthfqjpegfypm2ddcv27rs7c5z80ve2luj69ap0guqag3efu',
+    //         toAddress: 'addr_test1qzxpf7rnmr8asy2qz3m7z4s9hza50zwkqllkdy2kc2euxvhr5twp4xthtpp27c5qy43c68llrugeeautcerhv4nc9vusa67ryr',
+    //         amount: 10,
+    //         network: 'preview'
+    //     })
+
+    //     console.log(result)
+    // })
+})
+
+describe("Litecoin Test", () => {
+    it("Create Wallet", async () => {
+        const wallet= await Litecoin.createWallet()
+        console.log(wallet)
+    })
+
+    it("Import Wallet", async () => {
+        const wallet = await Litecoin.importWallet({
+            mnemonic: 'luggage flip infant wife pear forest ugly canyon elite one bread finger'
+        })
+
+        console.log(wallet)
+    })
+})

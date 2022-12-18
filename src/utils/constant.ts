@@ -1,4 +1,3 @@
-
 // Network Names
 export const ETHEREUM: string = 'ETHEREUM';
 export const SOLANA: string = 'SOLANA';
@@ -11,6 +10,7 @@ export const SOLANA_DEFAULT: string = "m/44'/501'/0'/0'";
 export const BITCOIN_DEFAULT: string = "m/44'/0'/0'/0";
 export const BNB_BEACON_DEFAULT: string = "m/44'/714'/0'/0";
 export const TRON_DEFAULT: string = "m/44'/195'/0/0";
+export const LITECOIN_DEFAULT: string = "m/44'/2'/0'/0";
 
 // Ethereum Contract Data
 export const ERC721_INTERFACE_ID = '0x80ac58cd';
@@ -24,6 +24,18 @@ export const BTC_MAINNET = 'bitcoin';
 export const BTC_REGTEST = 'regtest';
 export const BTC_TESTNET = 'testnet';
 
+// Network Prototype
+export const LITECOIN_NETWORK_PROTOTYPE = {
+    messagePrefix: '\x19Litecoin Signed Message:\n',
+    bech32: 'ltc',
+    bip32: {
+        public: 0x019da462,
+        private: 0x019d9cfe,
+    },
+    pubKeyHash: 0x30,
+    scriptHash: 0x32,
+    wif: 0xb0,
+}
 
 // Solana data API endpoint
 export const SOLANA_TOKENLIST_URI: string = 'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json';
@@ -38,12 +50,27 @@ export const CREATE_MASTERSEED: string = 'CREATE_MASTERSEED';
 export const CREATE_ACCOUNT: string = 'CREATE_ACCOUNT';
 export const IMPORT_ACCOUNT: string = 'IMPORT_ACCOUNT';
 export const GET_BALANCE: string = 'GET_BALANCE';
+export const GET_BALANCES: string = 'GET_BALANCES';
 export const GET_TOKEN: string = 'GET_TOKEN';
 export const GET_TOKEN_LIST: string = 'GET_TOKEN_LIST';
 export const SEND_COIN: string = 'SEND_COIN';
 export const APPROVE_TOKEN: string = 'APPROVE_TOKEN';
 export const TRANSFER_TOKEN: string = 'TRANSFER_TOKEN';
 export const GET_TRANSACTION: string = 'GET_TRANSACTION';
+
+// Cardano Ada Handle
+export const ADA_HANDLE = {
+    mainnet: 'f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a',
+    testnet: '8d18d786e92776c824607fd8e193ec535c79dc61ea2405ddf3b09fe3',
+};
+  
+// Blockfrost API project ID
+export const BLOCK_FROST = {
+    mainnet: 'mainnetQf8DQD9zDkg91gBo2R8xmEG2IxCaS9fU',
+    testnet: '',
+    preprod: '',
+    preview: 'previewcGGHuIlBcwBsYE7PzkEC26AMCb0LztD0'
+}
 
 
 // RPC_ENDPOINTS
@@ -62,7 +89,7 @@ export const POLYGON_MAINNET_RPC_URL = 'https://polygon-rpc.com';
 // Fantom network
 export const FANTOM_OPERA_MAINNET_RPC_URL = 'https://rpc.ftm.tools';
 // Abitrum network
-export const ARBITRUM_ONE_MAINNET_RPC_URL = 'https://rpc.ankr.com/arbitrum';
+export const ARBITRUM_ONE_MAINNET_RPC_URL = 'https://arb-mainnet.g.alchemy.com/v2/TDx7fOwCQUo2nF4-kzxvyIAIGMrpBmnc';
 // Cronos network
 export const CRONOS_MAINNET_RPC_URL = 'https://cronosrpc-1.xstaking.sg';
 // Avalanch network
@@ -95,3 +122,32 @@ export const RIPPLE_DEVNET_RPC_URL_2 = 'wss://s.devnet.rippletest.net/';
 export const TRON_MAINNET = 'https://api.trongrid.io';
 export const TRON_SHASTA_TESTNET = 'https://api.shasta.trongrid.io';
 export const TRON_NILE_TESTNET = 'https://nile.trongrid.io';
+
+
+///////////////////////////
+///////S T E L L A R///////
+///////////////////////////
+export const STELLAR_MAINNET_SERVER = 'https://horizon.stellar.org/'
+export const STELLAR_TESTNET_API = 'https://friendbot.stellar.org?addr='
+export const STELLAR_TESTNET_SERVER = 'https://horizon-testnet.stellar.org/'
+
+
+////////////////////////////
+////////C A R D A N O///////
+////////////////////////////
+export const CARDANO_MAINNET_SERVER = 'https://cardano-mainnet.blockfrost.io/api/v0'
+export const CARDANO_TESTNET_SERVER = 'https://cardano-testnet.blockfrost.io/api/v0'
+export const CARDANO_PREVIEW_SERVER = 'https://cardano-preview.blockfrost.io/api/v0'
+export const CARDANO_PREPROD_SERVER = 'https://cardano-preprod.blockfrost.io/api/v0'
+
+// Errors
+export const ERRORS = {
+    invalid_api_request: {
+        message: 'INVALID_API_REQUEST',
+        description: 'Invalid API request'
+    },
+    address_not_activated: {
+        message: 'ADDRESS_NOT_ACTIVATED',
+        description: 'This address must be activated to use'
+    }
+}

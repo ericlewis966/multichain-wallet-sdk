@@ -4,6 +4,7 @@ import {
     IMPORT_WALLET,
     IMPORT_ACCOUNT,
     GET_BALANCE,
+    GET_BALANCES,
     SEND_COIN
 } from '../../utils/constant';
 
@@ -11,6 +12,7 @@ import {
     ImportWalletPayload,
     ImportAccountPayload,
     BalancePayload,
+    BalancesPayload,
     TransferPayload 
 } from '../../utils/payloads/ripple';
 
@@ -51,9 +53,19 @@ export async function sendXrp(args: TransferPayload) {
 /**
  * 
  * @param args 
- * @returns Account Balance
+ * @returns Assets Balances
+ */
+export async function getBalances(args: BalancesPayload) {
+    const balances = await Wallet[GET_BALANCES](args.address, args?.rpcUrl);
+    return balances;
+}
+
+/**
+ * 
+ * @param args 
+ * @returns Native asset Balance
  */
 export async function getBalance(args: BalancePayload) {
     const balance = await Wallet[GET_BALANCE](args.address, args?.rpcUrl);
-    return balance;
+    return balance
 }

@@ -1,4 +1,5 @@
 import * as tron from "@faast/tron-payments";
+import TronWeb from 'tronweb';
 import * as bip39 from "bip39";
 import { BIP32Factory } from "bip32";
 import * as ecc from "tiny-secp256k1";
@@ -80,6 +81,13 @@ const getBalance = async (address: string) => {
         unconfirmedBalance
     })
 };
+
+const sendTrx = async (privateKey: string, fromAddress: string, toAddress: string, amount: number) => {
+    const keys = tron.HdTronPayments.generateNewKeys();
+    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
+
+    const address = tronPayment.privateKeyToAddress(privateKey);
+}
 
 const TronWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,

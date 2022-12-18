@@ -2,11 +2,11 @@ import { ethers } from 'ethers';
 import { hdkey } from 'ethereumjs-wallet';
 import { mnemonicToSeed } from 'bip39';
 
-//import response format
-import { response } from '../../utils/response';
-//import constants
+// import response format
+import { response, walletResponse, balanceResponse } from '../../utils/response';
+// import constants
 import { ETHEREUM_DEFAULT } from '../../utils/constant';
-//import actions
+// import actions
 import {
     CREATE_WALLET,
     IMPORT_WALLET,
@@ -19,14 +19,14 @@ import {
     APPROVE_TOKEN,
     TRANSFER_TOKEN
 } from '../../utils/constant';
-//import ineterface
+// import ineterface
 import { AnyObject } from '../../utils/globalType';
-//import util functions
+// import util functions
 import {
     isContractAddress,
     isNftContract
 } from '../../helper/ethereumHelper';
-//import ABI
+// import ABI
 import ERC20 from '../../abi/erc20';
 import ERC721 from '../../abi/erc721';
 
@@ -42,7 +42,7 @@ const createWallet = async (derivationPath?: string) => {
 
     const wallet = ethers.Wallet.createRandom({ path: path + nonce });
 
-    return response({
+    return walletResponse({
         address: wallet.address,
         privateKey: wallet.privateKey,
         mnemonic: wallet.mnemonic.phrase,
@@ -63,7 +63,7 @@ const importWallet = async (mnemonic: string, nonce?: number, derivationPath?: s
 
     const wallet = ethers.Wallet.fromMnemonic(mnemonic, path + index);
 
-    return response({
+    return walletResponse({
         address: wallet.address,
         privateKey: wallet.privateKey,
         mnemonic: wallet.mnemonic.phrase,
@@ -87,8 +87,7 @@ const createAccount = async (rootKey: any, nonce: number) => {
     const address = `0x${wallet.getAddress().toString('hex')}`;
     const privateKey = wallet.getPrivateKey().toString('hex');
 
-    return response({
-        account: wallet,
+    return walletResponse({
         address: address,
         privateKey: privateKey
     });
@@ -103,7 +102,7 @@ const importAccount = async (privateKey: string) => {
 
     const account = new ethers.Wallet(privateKey);
 
-    return response({
+    return walletResponse({
         address: account.address,
         privateKey: account.privateKey
     })
@@ -119,9 +118,7 @@ const getBalance = async (rpcUrl: string, address: string) => {
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
     const balance = await provider.getBalance(address);
-    return response({
-        balance: balance
-    })
+    return balanceResponse( parseInt(balance['_hex'], 16) )
 }
 
 const getToken = async (tokenAddress: string, rpcUrl: string, address: string) => {
@@ -205,8 +202,6 @@ const getToken = async (tokenAddress: string, rpcUrl: string, address: string) =
                     balance: balance,
                     isNft: isNft
                 })
-                
-                return err;
             }
         }
     }
@@ -234,7 +229,6 @@ const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: str
     const txResult = senderAccount.sendTransaction(tx);
     return response(txResult);
 }
-
 
 const tokenApprove = async (rpcUrl: string, privateKey: string, receiveAddress: string, tokenAddress: string, amount: string, gasPrice: number, gasLimit: number) => {
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
