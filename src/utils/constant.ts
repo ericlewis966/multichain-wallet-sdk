@@ -37,6 +37,9 @@ export const LITECOIN_NETWORK_PROTOTYPE = {
     wif: 0xb0,
 }
 
+// Bitpay url
+export const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api'
+
 // Solana data API endpoint
 export const SOLANA_TOKENLIST_URI: string = 'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json';
 
@@ -57,6 +60,7 @@ export const SEND_COIN: string = 'SEND_COIN';
 export const APPROVE_TOKEN: string = 'APPROVE_TOKEN';
 export const TRANSFER_TOKEN: string = 'TRANSFER_TOKEN';
 export const GET_TRANSACTION: string = 'GET_TRANSACTION';
+export const GET_GAS: string = 'GET_GAS';
 
 // Cardano Ada Handle
 export const ADA_HANDLE = {
@@ -72,6 +76,12 @@ export const BLOCK_FROST = {
     preview: 'previewcGGHuIlBcwBsYE7PzkEC26AMCb0LztD0'
 }
 
+// Tron API key
+export const TRONGRID_API_KEY = {
+    mainnet: 'f0b1e38e-7bee-485e-9d3f-69410bf30681',
+    testnet: '6739be94-ee43-46af-9a62-690cf0947269',
+    dappchain: 'a981e232-a995-4c81-9653-c85e4d05f599'
+}
 
 // RPC_ENDPOINTS
 
@@ -95,7 +105,6 @@ export const CRONOS_MAINNET_RPC_URL = 'https://cronosrpc-1.xstaking.sg';
 // Avalanch network
 export const AVALANCH_NETWORK_RPC_URL = 'https://1rpc.io/avax/c';
 
-
 /////////////////////////
 ///////S O L A N A///////
 /////////////////////////
@@ -115,13 +124,25 @@ export const RIPPLE_TESTNET_RPC_URL_2 = 'wss://s.altnet.rippletest.net/';
 export const RIPPLE_DEVNET_RPC_URL_1 = 'https://s.devnet.rippletest.net:51234/';
 export const RIPPLE_DEVNET_RPC_URL_2 = 'wss://s.devnet.rippletest.net/';
 
-
 ///////////////////////////
 //////////T R O N//////////
 ///////////////////////////
 export const TRON_MAINNET = 'https://api.trongrid.io';
 export const TRON_SHASTA_TESTNET = 'https://api.shasta.trongrid.io';
 export const TRON_NILE_TESTNET = 'https://nile.trongrid.io';
+export const TRON_DAPPCHAIN = 'https://sun.tronex.io'
+
+export const TRON_MAINNET_FULL_NODE = 'https://api.trongrid.io'
+export const TRON_MAINNET_SOLIDITY_NODE = 'https://api.trongrid.io'
+export const TRON_MAINNET_EVENT_SERVER = 'https://api.trongrid.io'
+
+export const TRON_TESTNET_FULL_NODE = 'https://api.shasta.trongrid.io'
+export const TRON_TESTNET_SOLIDITY_NODE = 'https://api.shasta.trongrid.io'
+export const TRON_TESTNET_EVENT_SERVER = 'https://api.shasta.trongrid.io'
+
+export const TRON_DAPPCHAIN_FULL_NDOE = 'https://sun.tronex.io'
+export const TRON_DAPPCHAIN_SOLIDITY_NODE = 'https://sun.tronex.io'
+export const TRON_DAPPCHAIN_EVENT_SERVER = 'https://sun.tronex.io'
 
 
 ///////////////////////////

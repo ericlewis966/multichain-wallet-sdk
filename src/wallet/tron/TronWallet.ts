@@ -1,22 +1,27 @@
-import * as tron from "@faast/tron-payments";
 import TronWeb from 'tronweb';
 import * as bip39 from "bip39";
-import { BIP32Factory } from "bip32";
-import * as ecc from "tiny-secp256k1";
+import * as bip32 from "bip32"
+// import { BIP32Factory } from "bip32";
+// import * as ecc from "tiny-secp256k1";
 
 import {
     TRON_DEFAULT,
     TRON_MAINNET,
+    TRON_MAINNET_FULL_NODE,
+    TRON_MAINNET_SOLIDITY_NODE,
+    TRON_MAINNET_EVENT_SERVER,
+    TRONGRID_API_KEY,
+    TRON_SHASTA_TESTNET,
     CREATE_WALLET,
     IMPORT_WALLET,
     IMPORT_ACCOUNT,
     GET_BALANCE
 } from "../../utils/constant";
 import { AnyObject } from "../../utils/globalType";
-import { response } from "../../utils/response";
+import { response, walletResponse, balanceResponse } from "../../utils/response";
 
 const createWallet = async (nonce?: number) => {
-    const bip32 = BIP32Factory(ecc);
+    // const bip32 = BIP32Factory(ecc);
     const mnemonic = bip39.generateMnemonic();
     const seed = await bip39.mnemonicToSeed(mnemonic);
     const node = await bip32.fromSeed(seed);
@@ -24,12 +29,9 @@ const createWallet = async (nonce?: number) => {
     const privateKeyBuf = child.privateKey;
     const privateKeyHex = privateKeyBuf?.toString("hex");
     const privateKey = String(privateKeyHex);
-    const keys = tron.HdTronPayments.generateNewKeys();
-    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
+    const address = TronWeb.address.fromPrivateKey(privateKey);
 
-    const address = tronPayment.privateKeyToAddress(privateKey);
-
-    return response({
+    return walletResponse({
         mnemonic,
         privateKey,
         address,
@@ -37,19 +39,17 @@ const createWallet = async (nonce?: number) => {
 };
 
 const importWallet = async (mnemonic: string, nonce?: string) => {
-    const bip32 = BIP32Factory(ecc);
+
+    // const bip32 = BIP32Factory(ecc);
     const seed = await bip39.mnemonicToSeed(mnemonic);
     const node = await bip32.fromSeed(seed);
     const child = await node.derivePath(`m/44'/195'/${nonce || 0}'`);
     const privateKeyBuf = child.privateKey;
     const privateKeyHex = privateKeyBuf?.toString("hex");
     const privateKey = String(privateKeyHex);
-    const keys = tron.HdTronPayments.generateNewKeys();
-    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
+    const address = TronWeb.address.fromPrivateKey(privateKey);
 
-    const address = tronPayment.privateKeyToAddress(privateKey);
-
-    return response({
+    return walletResponse({
         mnemonic,
         privateKey,
         address,
@@ -57,36 +57,28 @@ const importWallet = async (mnemonic: string, nonce?: string) => {
 };
 
 const importAccount = async (privateKey: string) => {
-    const keys = tron.HdTronPayments.generateNewKeys();
-    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
 
-    const address = tronPayment.privateKeyToAddress(privateKey);
+    const address = TronWeb.address.fromPrivateKey(privateKey);
 
-    return response({
+    console.log(TronWeb)
+
+    return walletResponse({
         privateKey,
         address,
     });
 };
 
 const getBalance = async (address: string) => {
-    const keys = tron.HdTronPayments.generateNewKeys();
-    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
-    const {
-        confirmedBalance,
-        unconfirmedBalance,
-    } = await tronPayment.getBalance({ address });
 
-    return response({
-        confirmedBalance,
-        unconfirmedBalance
-    })
+    const tronWeb = new TronWeb(TRON_MAINNET_FULL_NODE, TRON_MAINNET_SOLIDITY_NODE, TRON_MAINNET_EVENT_SERVER)
+
+    const balance = await tronWeb.trx.getBalance(address)
+
+    return balanceResponse(balance)
 };
 
 const sendTrx = async (privateKey: string, fromAddress: string, toAddress: string, amount: number) => {
-    const keys = tron.HdTronPayments.generateNewKeys();
-    const tronPayment = new tron.HdTronPayments({ hdKey: keys.xprv });
 
-    const address = tronPayment.privateKeyToAddress(privateKey);
 }
 
 const TronWallet: AnyObject = {

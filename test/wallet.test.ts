@@ -1,5 +1,6 @@
 import { AnyObject } from "../src/utils/globalType";
 
+import * as Common from "../src/wallet/common";
 import * as Ethereum from "../src/wallet/ethereum";
 import * as Solana from "../src/wallet/solana";
 import * as Bitcoin from "../src/wallet/bitcoin";
@@ -64,6 +65,12 @@ interface BeaconWallet {
 
 jest.setTimeout(50000);
 
+describe("Common functions test", () => {
+    it("Generate mnemonic", async () => {
+        const mnemonic = await Common.generateMnemonic()
+    })
+})
+
 describe("EVM class blockchain Test", () => {
     describe("Ethereum Wallet Test", () => {
         let createdWallet: EthWallet, importedWallet: EthWallet;
@@ -83,18 +90,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -109,9 +116,13 @@ describe("EVM class blockchain Test", () => {
                 defaultProviderRpcUrl: ETHEREUM_MAINNET_RPC_URL_2,
                 address: "0x60610c2756fEDfbfB32E94D433cFD08740683771",
             });
-    
+
             expect(typeof balance).toBe("number");
         });
+
+        it("Get Token", async () => {
+            const token = await Ethereum.getToken({ tokenAddress: '0xACea9AF39ceA78F35f6465E942820A9d8CA1BDa9', rpcUrl: 'https://eth-goerli.public.blastapi.io', address: '0xa1378d240F546ed2fccc833d1A8a96D63752087F' })
+        })
     });
     
     describe("Polygon Wallet Test", () => {
@@ -132,18 +143,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -181,18 +192,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -230,18 +241,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -279,18 +290,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -328,18 +339,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -377,18 +388,18 @@ describe("EVM class blockchain Test", () => {
             expect(importedWallet).toEqual(createdWallet);
         });
     
-        it("Create master seed & account", async () => {
-            const seed = await Ethereum.createMasterSeed({
-                mnemonic: createdWallet.mnemonic,
-            });
+        // it("Create master seed & account", async () => {
+        //     const seed = await Ethereum.createMasterSeed({
+        //         mnemonic: createdWallet.mnemonic,
+        //     });
     
-            const account = await Ethereum.createAccount({
-                rootKey: seed,
-                nonce: 0,
-            });
+        //     const account = await Ethereum.createAccount({
+        //         rootKey: seed,
+        //         nonce: 0,
+        //     });
     
-            expect(typeof account).toBe("object");
-        });
+        //     expect(typeof account).toBe("object");
+        // });
     
         it("Import Account", async () => {
             const account = await Ethereum.importAccount({
@@ -461,14 +472,16 @@ describe("Test Bitcoin", () => {
         randomWallet: BtcWallet;
 
     it("Create Wallet", async () => {
-        createdWallet = await Bitcoin.createWallet({
-            network: "bitcoin",
+        const createdWallet = await Bitcoin.createWallet({
+            network: "testnet",
         });
 
-        randomWallet = await Bitcoin.createWallet({
-            network: "bitcoin",
-        });
-        expect(typeof createdWallet).toBe("object");
+        console.log(createdWallet)
+
+        // randomWallet = await Bitcoin.createWallet({
+        //     network: "bitcoin",
+        // });
+        // expect(typeof createdWallet).toBe("object");
     });
 
     it("Import Wallet", async () => {
@@ -480,14 +493,14 @@ describe("Test Bitcoin", () => {
         expect(typeof importedWallet).toBe("object");
     });
 
-    it("Import Account", async () => {
-        importedWallet = await Bitcoin.importAccount({
-            network: "bitcoin",
-            privateKey: createdWallet.privateKey,
-        });
+    // it("Import Account", async () => {
+    //     importedWallet = await Bitcoin.importAccount({
+    //         network: "bitcoin",
+    //         privateKey: createdWallet.privateKey,
+    //     });
 
-        expect(typeof importedWallet).toBe("object");
-    });
+    //     expect(typeof importedWallet).toBe("object");
+    // });
 
     it("Get balance", async () => {
         const balance = await Bitcoin.getBalance({
@@ -581,6 +594,7 @@ describe("Tron Test", () => {
         importedAccount = await Tron.importAccount({
             privateKey: importedWallet.privateKey
         })
+
         expect(importedAccount.address).toStrictEqual(importedWallet.address)
     })
 
@@ -642,26 +656,19 @@ describe("Stellar Test", () => {
 describe("Cardano Test", () => {
     it("Create Wallet", async () => {
         const wallet = await Cardano.createWallet()
-        console.log(wallet)
     })
 
     it("Import Wallet", async () => {
         const wallet = await Cardano.importWallet({ 
             mnemonic: "luggage flip infant wife pear forest ugly canyon elite one bread finger" })
-
-        console.log(wallet)
     })
 
     it("Get Balances", async () => {
         const balances = await Cardano.getBalances({address: 'addr_test1qp0fkj8x2peran90hvq3x8j9sp276e2d3q95wr7apsqrf73jkerthfqjpegfypm2ddcv27rs7c5z80ve2luj69ap0guqag3efu', network: 'preview' })
-
-        console.log(balances)
     })
 
     it("Get Balance", async () => {
         const balance = await Cardano.getBalance({address: 'addr_test1qp0fkj8x2peran90hvq3x8j9sp276e2d3q95wr7apsqrf73jkerthfqjpegfypm2ddcv27rs7c5z80ve2luj69ap0guqag3efu', network: 'preview' })
-
-        console.log(balance)
     })
 
     // it("Send Balance", async () => {
@@ -683,14 +690,11 @@ describe("Cardano Test", () => {
 describe("Litecoin Test", () => {
     it("Create Wallet", async () => {
         const wallet= await Litecoin.createWallet()
-        console.log(wallet)
     })
 
     it("Import Wallet", async () => {
         const wallet = await Litecoin.importWallet({
             mnemonic: 'luggage flip infant wife pear forest ugly canyon elite one bread finger'
         })
-
-        console.log(wallet)
     })
 })

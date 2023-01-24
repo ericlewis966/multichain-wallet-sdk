@@ -65,10 +65,10 @@ export async function createMasterSeed(args: CreateMasterSeedPayload) {
  * @param args 
  * @returns Created Account
  */
-export async function createAccount(args: CreateAccountPayload) {
-    const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
-    return account;
-}
+// export async function createAccount(args: CreateAccountPayload) {
+//     const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
+//     return account;
+// }
 
 /**
  * 
@@ -107,7 +107,7 @@ export async function getToken (args: GetTokenPayload) {
  * @returns transaction result
  */
 export async function sendEther(args: SendPayload) {
-    const tx = await Wallet[SEND_COIN](args.rpcUrl, args.privateKey, args.receiveAddress, args.amount, args.gasPrice, args.gasLimit);
+    const tx = await Wallet[SEND_COIN](args.rpcUrl, args.privateKey, args.receiveAddress, args.amount, args?.gasPrice, args?.gasLimit);
     return tx;
 }
 

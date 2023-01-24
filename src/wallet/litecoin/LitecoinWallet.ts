@@ -1,8 +1,10 @@
-import * as ecc from 'tiny-secp256k1';
+// import * as ecc from 'tiny-secp256k1';
 import * as  bip39 from 'bip39';
 import * as bitcoin from 'bitcoinjs-lib';
-import BIP32Factory from 'bip32';
+import * as bip32 from 'bip32';
+// import BIP32Factory from 'bip32';
 import litecore from 'litecore-lib'
+
 
 import { CREATE_WALLET, IMPORT_WALLET, LITECOIN_DEFAULT, LITECOIN_NETWORK_PROTOTYPE } from "../../utils/constant";
 import { AnyObject } from "../../utils/globalType";
@@ -13,21 +15,25 @@ const createWallet = () => {
 
     const mnemonic = bip39.generateMnemonic();
 
-    // const seed = bip39.mnemonicToSeedSync(mnemonic);
+    const seed = bip39.mnemonicToSeedSync(mnemonic);
     // const bip32 = BIP32Factory(ecc);
-    // const root = bip32.fromSeed(seed, LITECOIN_NETWORK_PROTOTYPE);
+    const root = bip32.fromSeed(seed, LITECOIN_NETWORK_PROTOTYPE);
 
-    // const account = root.derivePath(path);
-    // const node = account.derive(0);
+    const account = root.derivePath(path);
+    const node = account.derive(0);
 
-    // const node = root.deriveAccount(0)
+    // const privateKey = new litecore.PrivateKey()
+    // const address = privateKey.toAddress()
 
-    const privateKey = new litecore.PrivateKey()
-    const address = privateKey.toAddress()
+    const address = bitcoin.payments.p2pkh({
+        pubkey: node.publicKey,
+        network: LITECOIN_NETWORK_PROTOTYPE
+    }).address;
 
     return walletResponse({
-        privateKey: privateKey.toWIF(),
-        address: address.toString()
+        privateKey: node.toWIF(),
+        address: address,
+        mnemonic: mnemonic
     })
 }
 
@@ -35,7 +41,7 @@ const importWallet = (mnemonic: string) => {
     const path = LITECOIN_DEFAULT;
 
     const seed = bip39.mnemonicToSeedSync(mnemonic);
-    const bip32 = BIP32Factory(ecc);
+    // const bip32 = BIP32Factory(ecc);
     const root = bip32.fromSeed(seed, LITECOIN_NETWORK_PROTOTYPE);
 
     const account = root.derivePath(path);

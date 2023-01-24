@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const shuffleArray = (...arrayIn: any) => {
     const array = arrayIn.length === 1 && Array.isArray(arrayIn[0])
         ? arrayIn[0]

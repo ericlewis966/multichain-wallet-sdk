@@ -6,6 +6,7 @@ declare module 'stellar-hd-wallet';
 declare module 'random-hash';
 declare module 'litecore-lib';
 declare module 'litecoin-bip84';
+declare module 'react-native-bip39'
 // declare module 'ripple-wallet/lib/ripple_address';
 declare type TronTransaction = typeof import('tronweb');
 declare type TronWeb = typeof import('tronweb');

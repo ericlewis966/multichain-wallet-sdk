@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import { shuffleArray, fallback } from "../utils/utils";
 import { AnyObject } from "../utils/globalType";
@@ -9,10 +10,6 @@ interface UTXO {
     readonly scriptPubKey?: string;
     readonly confirmations: number;
 }
-
-declare const fixUTXOs: (utxos: readonly UTXO[], decimals: number) => UTXO[];
-
-declare const iSortUTXOs: (a: UTXO, b: UTXO) => number;
 
 const sortUTXOs = (a: UTXO, b: UTXO) => {
     // Sort greater values first

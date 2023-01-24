@@ -1,5 +1,9 @@
+/* eslint-disable */
+
+import "@ethersproject/shims"
+
 import { ethers } from 'ethers';
-import { hdkey } from 'ethereumjs-wallet';
+// import { hdkey } from 'ethereumjs-wallet';
 import { mnemonicToSeed } from 'bip39';
 
 // import response format
@@ -17,7 +21,8 @@ import {
     GET_TOKEN,
     SEND_COIN,
     APPROVE_TOKEN,
-    TRANSFER_TOKEN
+    TRANSFER_TOKEN,
+    GET_GAS
 } from '../../utils/constant';
 // import ineterface
 import { AnyObject } from '../../utils/globalType';
@@ -76,22 +81,22 @@ const createMasterSeedFromMnemonic = async (mnemonic: string) => {
     return seed;
 }
 
-/**
- * 
- * @param rootKey 
- * @returns New Account
- */
-const createAccount = async (rootKey: any, nonce: number) => {
-    const hdWallet = await hdkey.fromMasterSeed(rootKey);
-    const wallet = hdWallet.derivePath(ETHEREUM_DEFAULT + nonce).getWallet();
-    const address = `0x${wallet.getAddress().toString('hex')}`;
-    const privateKey = wallet.getPrivateKey().toString('hex');
+// /**
+//  * 
+//  * @param rootKey 
+//  * @returns New Account
+//  */
+// const createAccount = async (rootKey: any, nonce: number) => {
+//     const hdWallet = await hdkey.fromMasterSeed(rootKey);
+//     const wallet = hdWallet.derivePath(ETHEREUM_DEFAULT + nonce).getWallet();
+//     const address = `0x${wallet.getAddress().toString('hex')}`;
+//     const privateKey = wallet.getPrivateKey().toString('hex');
 
-    return walletResponse({
-        address: address,
-        privateKey: privateKey
-    });
-}
+//     return walletResponse({
+//         address: address,
+//         privateKey: privateKey
+//     });
+// }
 
 /**
  * 
@@ -216,14 +221,21 @@ const getToken = async (tokenAddress: string, rpcUrl: string, address: string) =
  * @param amount 
  * @returns transaction result
  */
-const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: string, amount: string, gasPrice: number, gasLimit: number) => {
+const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: string, amount: string, gasPrice?: number, gasLimit?: number) => {
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     const senderAccount = new ethers.Wallet(privateKey, provider);
+
+    const defaultGasPrice = await provider.getGasPrice()
+    const defaultGasLimit =(await provider.getBlock('latest')).gasLimit
+
+    const _gasPrice = gasPrice || defaultGasPrice
+    const _gasLimit = gasLimit || defaultGasLimit
+
     const tx = {
         to: receiveAddress,
         value: ethers.utils.parseEther(amount),
-        gasPrice: gasPrice,
-        gasLimit: gasLimit
+        gasPrice: _gasPrice,
+        gasLimit: _gasLimit
     }
 
     const txResult = senderAccount.sendTransaction(tx);
@@ -257,17 +269,31 @@ const tokenTransfer = async (rpcUrl: string, privateKey: string, receiveAddress:
         return response({ err });
     }
 }
+
+const getGas = async (rpcUrl: string) => {
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+    const block = await provider.getBlock('latest')
+    
+    const gasPrice = await provider.getGasPrice()
+    const gasLimit = block.gasLimit
+    return response({
+        gasPrice,
+        gasLimit
+    })
+}
+
 const EthereumWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
     [CREATE_MASTERSEED]: createMasterSeedFromMnemonic,
-    [CREATE_ACCOUNT]: createAccount,
+    // [CREATE_ACCOUNT]: createAccount,
     [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
     [GET_TOKEN]: getToken,
     [SEND_COIN]: sendEther,
     [APPROVE_TOKEN]: tokenApprove,
-    [TRANSFER_TOKEN]: tokenTransfer
+    [TRANSFER_TOKEN]: tokenTransfer,
+    [GET_GAS]: getGas
 }
 
 export default EthereumWallet;

@@ -2,7 +2,6 @@ import Wallet from './LitecoinWallet'
 import { CREATE_WALLET, IMPORT_WALLET } from '../../utils/constant'
 import { ImportWalletPayload } from '../../utils/payloads/litecoin'
 
-
 /**
  * 
  * @param args ? derive path
