@@ -227,8 +227,9 @@ const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: str
 
     const defaultGasPrice = await provider.getGasPrice()
     const defaultGasLimit =(await provider.getBlock('latest')).gasLimit
+    const defaultGasPriceSn = parseInt(defaultGasPrice._hex, 16)
 
-    const _gasPrice = gasPrice || defaultGasPrice
+    const _gasPrice = gasPrice || ethers.BigNumber.from(Math.round(defaultGasPriceSn + (defaultGasPriceSn / 10)))
     const _gasLimit = gasLimit || defaultGasLimit
 
     const tx = {
