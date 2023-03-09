@@ -1,6 +1,6 @@
 {
   "name": "vipay-multichain-wallet",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -125,9 +125,9 @@
     "webpack": "^5.74.0"
   },
   "readme": "readme.md",
-  "homepage": "https://github.com/theblockjet/Vipay_multichain_wallet",
+  "homepage": "https://github.com/cyber-storm-200712/multichain-wallet-sdk",
   "repository": {
-    "url": "https://github.com/theblockjet/Vipay_multichain_wallet"
+    "url": "https://github.com/cyber-storm-200712/multichain-wallet-sdk"
   },
   "react-native": {
     "zlib": "browserify-zlib",
