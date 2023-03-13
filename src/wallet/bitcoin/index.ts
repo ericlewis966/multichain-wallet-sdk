@@ -62,7 +62,7 @@ export async function getBalance(args: BalancePayload) {
  * @param args 
  * @returns Raw transaction
  */
-export async function sendBtc(args: TransferPaload) {
+export async function sendCoin(args: TransferPaload) {
     const tx = await Wallet[SEND_COIN](args.network, args.senderPrivatekey, args.senderAddress, args.receiveAddress, args.amount, args?.gasFee);
 
     return tx;

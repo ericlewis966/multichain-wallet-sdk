@@ -62,7 +62,7 @@ export async function importAccount(args: ImportAccountPayload) {
  * @param args 
  * @returns tx
  */
-export async function transfer(args: TransferPayload) {
+export async function sendCoin(args: TransferPayload) {
     const tx = await Wallet[SEND_COIN](args.rpcUrl, args.privateKey, args.from, args.to, args.amount);
     return tx;
 }

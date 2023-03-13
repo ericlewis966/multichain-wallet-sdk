@@ -10,3 +10,10 @@ export interface ImportWalletPayload {
 export interface ImportAccountPayload {
     privateKey: string;
 }
+
+export interface SendTrxPayload {
+    privateKey: string; 
+    fromAddress: string;
+    toAddress: string;
+    amount: number
+}

@@ -41,17 +41,17 @@ import ERC721 from '../../abi/erc721';
  * @description Create Ethereum wallet
  * @returns Created Wallet
  */
-const createWallet = async (derivationPath?: string) => {
+const createWallet = async (derivationPath?: string, nonce?: number) => {
     const path = derivationPath || ETHEREUM_DEFAULT;
-    const nonce = Math.floor(Math.random() * 10);
+    const index = nonce || Math.floor(Math.random() * 10);
 
-    const wallet = ethers.Wallet.createRandom({ path: path + nonce });
+    const wallet = ethers.Wallet.createRandom({ path: path + index });
 
     return walletResponse({
         address: wallet.address,
         privateKey: wallet.privateKey,
         mnemonic: wallet.mnemonic.phrase,
-        nonce: nonce
+        nonce: index
     })
 }
 

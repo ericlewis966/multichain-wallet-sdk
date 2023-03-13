@@ -46,7 +46,7 @@ export async function getBalance(args: GetBalancePayload) {
  * @param args paymentkey | sender address | receiver address | ADA amount
  * @returns payment transaction hash
  */
-export async function sendAda(args: SendAdaPayload) {
+export async function sendCoin(args: SendAdaPayload) {
     const result = await Wallet[SEND_COIN](args.paymentKey, args.fromAddress, args.toAddress, args.amount, args?.network)
     return result
 }

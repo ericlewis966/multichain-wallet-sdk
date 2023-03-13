@@ -6,6 +6,7 @@ export interface AnyObject {
 /*Ethereum Interface*/
 export interface CreateWalletPayload {
     derivationPath?: string;
+    nonce?: number;
 }
 
 export interface ImportWalletPayload {

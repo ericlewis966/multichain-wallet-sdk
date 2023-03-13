@@ -33,7 +33,7 @@ import {
  * @returns Wallet
  */
 export async function createWallet(args: CreateWalletPayload) {
-    const wallet = await Wallet[CREATE_WALLET](args.derivationPath);
+    const wallet = await Wallet[CREATE_WALLET](args.derivationPath, args.nonce);
     return wallet;
 }
 
@@ -106,7 +106,7 @@ export async function getToken (args: GetTokenPayload) {
  * @param args 
  * @returns transaction result
  */
-export async function sendEther(args: SendPayload) {
+export async function sendCoin(args: SendPayload) {
     const tx = await Wallet[SEND_COIN](args.rpcUrl, args.privateKey, args.receiveAddress, args.amount, args?.gasPrice, args?.gasLimit);
     return tx;
 }

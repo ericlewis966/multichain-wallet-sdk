@@ -1,6 +1,6 @@
 import Wallet from './TronWallet';
-import { CREATE_WALLET, IMPORT_WALLET, IMPORT_ACCOUNT, GET_BALANCE } from '../../utils/constant';
-import { BalancePayload, ImportWalletPayload, ImportAccountPayload } from '../../utils/payloads/tron';
+import { CREATE_WALLET, IMPORT_WALLET, IMPORT_ACCOUNT, GET_BALANCE, SEND_COIN } from '../../utils/constant';
+import { BalancePayload, ImportWalletPayload, ImportAccountPayload, SendTrxPayload } from '../../utils/payloads/tron';
 
 export async function createWallet() {
     const wallet = await Wallet[CREATE_WALLET]();
@@ -20,4 +20,9 @@ export async function importAccount(args: ImportAccountPayload) {
 export async function getBalance(args: BalancePayload) {
     const balance = await Wallet[GET_BALANCE](args.address);
     return balance;
+}
+
+export async function sendCoin(args: SendTrxPayload) {
+    const result = await Wallet[SEND_COIN](args.privateKey, args.fromAddress, args.toAddress, args.amount)
+    return result;
 }
