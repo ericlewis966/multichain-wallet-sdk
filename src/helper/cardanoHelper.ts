@@ -143,8 +143,6 @@ export const getUtxos = async (address: string, network?: 'mainnet' | 'testnet' 
     let converted = await Promise.all(
         result.map(async (utxo) => await utxoFromJson(utxo, address))
     )
-
-    console.log(result[0])
     
     return result
 

@@ -42,10 +42,10 @@ export async function importWallet(args: ImportWalletPayload) {
  * @param args 
  * @returns BTC wallet
  */
-// export async function importAccount(args: ImportAccountPayload) {
-//     const wallet = await Wallet[IMPORT_ACCOUNT](args.network, args.privateKey, args?.derivedPath)
-//     return wallet
-// }
+export async function importAccount(args: ImportAccountPayload) {
+    const wallet = await Wallet[IMPORT_ACCOUNT](args.network, args.privateKey, args?.derivedPath)
+    return wallet
+}
 
 /**
  * 

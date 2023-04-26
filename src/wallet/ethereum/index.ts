@@ -20,6 +20,7 @@ import {
     CREATE_ACCOUNT,
     IMPORT_ACCOUNT,
     GET_BALANCE,
+    GET_TOKEN_BALANCE,
     GET_TOKEN,
     SEND_COIN,
     APPROVE_TOKEN,
@@ -94,6 +95,16 @@ export async function getBalance (args: BalancePayload) {
 /**
  * 
  * @param args 
+ * @returns Token balance
+ */
+export async function getTokenBalance (args: GetTokenPayload) {
+    const balance = await Wallet[GET_TOKEN_BALANCE](args.tokenAddress, args.rpcUrl, args.address)
+    return balance
+}
+
+/**
+ * 
+ * @param args 
  * @returns Token information 
  */
 export async function getToken (args: GetTokenPayload) {
@@ -128,7 +139,7 @@ export async function tokenApprove(args: TokenApproveAndTransferPayload) {
  * @returns transaction result
  */
 export async function tokenTransfer(args: TokenApproveAndTransferPayload) {
-    const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args.gasPrice, args.gasLimit);
+    const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args?.gasPrice, args?.gasLimit);
 
     return tx;
 }

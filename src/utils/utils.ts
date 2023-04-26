@@ -1,4 +1,7 @@
 /* eslint-disable */
+
+import { ethers } from "ethers";
+
 export const shuffleArray = (...arrayIn: any) => {
     const array = arrayIn.length === 1 && Array.isArray(arrayIn[0])
         ? arrayIn[0]
@@ -25,3 +28,20 @@ export const fallback = async (fallbacks: any) => {
     }
     throw firstError || new Error("No result returned");
 };
+
+export const gweiToWei = (amount: string | number) => {
+    const weiValue = ethers.utils.parseUnits(amount.toString(), 'gwei')
+    return weiValue
+}
+
+export const gweiToEther = (amount: string | number) => {
+    const weiValue = ethers.utils.parseUnits(amount.toString(), 'gwei')
+    const etherValue = ethers.utils.formatEther(weiValue)
+
+    return etherValue
+}
+
+export const weiToEther = (amount: string | number) => {
+    const etherValue = ethers.utils.formatEther(amount.toString())
+    return etherValue
+}

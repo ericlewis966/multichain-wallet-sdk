@@ -25,9 +25,10 @@ const createWallet = async () => {
     // const address = RippleAddress.fromPublicKey(wallet.publicKey);
 
     return walletResponse({
-        address: wallet.address,
-        privateKey: wallet.privateKey,
         mnemonic,
+        seed: wallet?.seed,
+        privateKey: wallet.privateKey,
+        address: wallet.address,
     });
 };
 
@@ -38,14 +39,13 @@ const importWallet = async (mnemonic: string) => {
 
     return walletResponse({
        address: wallet.address,
+       seed: wallet?.seed,
        privateKey: wallet.privateKey,
        mnemonic,
-    //    address
     });
 };
 
 const importAccount = async (secretKey: string) => {
-
     const account = await Wallet.fromSeed(secretKey);
     return walletResponse({
         address: account.address,

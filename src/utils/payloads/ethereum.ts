@@ -1,3 +1,5 @@
+import type { BigNumber } from "ethers";
+
 /*Global Interface*/
 export interface AnyObject {
     [key: string]: any;
@@ -58,7 +60,22 @@ export interface TokenApproveAndTransferPayload {
     privateKey: string;
     receiveAddress: string;
     tokenAddress: string;
-    amount: string;
-    gasPrice: number;
-    gasLimit: number;
+    amount: any;
+    gasPrice?: number;
+    gasLimit?: number;
+}
+
+export interface GasEstimationPayload {
+    low: number;
+    average: number;
+    fast: number;
+    lowWei: BigNumber;
+    averageWei: BigNumber;
+    fastWei: BigNumber;
+    lowEth: string;
+    averageEth: string;
+    fastEth: string;
+    safeLowWaitMin: number;
+    avgWaitMin: number;
+    fastWaitMin: number
 }
