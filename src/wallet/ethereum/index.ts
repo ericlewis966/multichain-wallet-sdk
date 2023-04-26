@@ -66,10 +66,10 @@ export async function createMasterSeed(args: CreateMasterSeedPayload) {
  * @param args 
  * @returns Created Account
  */
-// export async function createAccount(args: CreateAccountPayload) {
-//     const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
-//     return account;
-// }
+export async function createAccount(args: CreateAccountPayload) {
+    const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
+    return account;
+}
 
 /**
  * 
@@ -129,7 +129,6 @@ export async function sendCoin(args: SendPayload) {
  */
 export async function tokenApprove(args: TokenApproveAndTransferPayload) {
     const tx = await Wallet[APPROVE_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args.gasPrice, args.gasLimit);
-
     return tx;
 }
 
@@ -140,6 +139,5 @@ export async function tokenApprove(args: TokenApproveAndTransferPayload) {
  */
 export async function tokenTransfer(args: TokenApproveAndTransferPayload) {
     const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args?.gasPrice, args?.gasLimit);
-
     return tx;
 }

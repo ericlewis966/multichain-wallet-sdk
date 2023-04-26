@@ -51,8 +51,8 @@ export interface SendPayload {
     privateKey: string;
     receiveAddress: string;
     amount: string;
-    gasPrice?: number;
-    gasLimit?: number;
+    gasPrice?: any;
+    gasLimit?: any;
 }
 
 export interface TokenApproveAndTransferPayload {
@@ -61,8 +61,8 @@ export interface TokenApproveAndTransferPayload {
     receiveAddress: string;
     tokenAddress: string;
     amount: any;
-    gasPrice?: number;
-    gasLimit?: number;
+    gasPrice?: any;
+    gasLimit?: any;
 }
 
 export interface GasEstimationPayload {
