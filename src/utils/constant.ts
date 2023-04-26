@@ -37,14 +37,19 @@ export const LITECOIN_NETWORK_PROTOTYPE = {
     wif: 0xb0,
 }
 
+
+// Ether Gasstation
+export const ETHER_GASSTATION_APIKEY = '9218ce9ba793ff0339045d78a4161ad4b9c5d1ebad3158197514ac957d40'
+export const ETHER_GASSTATION_API: string = `https://ethgasstation.info/api/ethgasAPI.json?api-key=${ETHER_GASSTATION_APIKEY}`
+
 // Bitpay url
-export const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api'
+export const BWS_INSTANCE_URL: string = 'https://bws.bitpay.com/bws/api'
 
 // Solana data API endpoint
 export const SOLANA_TOKENLIST_URI: string = 'https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json';
 
 // hedera account id recover api endpoint
-export const GET_HEDERA_ACCOUNTID_ENDPOINT = 'https://mainnet-public.mirrornode.hedera.com/api/v1/accounts?accountpublickey=';
+export const GET_HEDERA_ACCOUNTID_ENDPOINT: string = 'https://mainnet-public.mirrornode.hedera.com/api/v1/accounts?accountpublickey=';
 
 // Actions
 export const CREATE_WALLET: string = 'CREATE_WALLET';
@@ -54,6 +59,7 @@ export const CREATE_ACCOUNT: string = 'CREATE_ACCOUNT';
 export const IMPORT_ACCOUNT: string = 'IMPORT_ACCOUNT';
 export const GET_BALANCE: string = 'GET_BALANCE';
 export const GET_BALANCES: string = 'GET_BALANCES';
+export const GET_TOKEN_BALANCE: string = 'GET_TOKEN_BALANCE';
 export const GET_TOKEN: string = 'GET_TOKEN';
 export const GET_TOKEN_LIST: string = 'GET_TOKEN_LIST';
 export const SEND_COIN: string = 'SEND_COIN';
@@ -110,7 +116,7 @@ export const AVALANCH_NETWORK_RPC_URL = 'https://1rpc.io/avax/c';
 /////////////////////////
 export const SOLANA_DEVNET_RPC_URL = 'https://api.devnet.solana.com/';
 export const SOLANA_TESTNET_RPC_URL = 'https://api.testnet.solana.com/';
-export const SOLANA_MAINNET_RPC_URL = 'https://solana-mainnet.phantom.app/YBPpkkN4g91xDiAnTE9r0RcMkjg0sKUIWvAfoFVJ';
+export const SOLANA_MAINNET_RPC_URL = 'https://api.mainnet-beta.solana.com';
 
 //////////////////////////
 ////////R I P P L E///////

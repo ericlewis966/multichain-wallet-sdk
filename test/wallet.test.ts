@@ -21,8 +21,9 @@ import
     ARBITRUM_ONE_MAINNET_RPC_URL,
     CRONOS_MAINNET_RPC_URL,
     ETHEREUM_MAINNET_RPC_URL_2,
-    SOLANA_MAINNET_RPC_URL
+    SOLANA_MAINNET_RPC_URL,
 } from "../src/utils/constant";
+import { ethers } from "ethers";
 
 interface EthWallet {
     address: string;
@@ -45,7 +46,8 @@ interface BtcWallet {
 
 interface RootRippleWallet {
     address: string;
-    secret: string;
+    seed: string;
+    privateKey: string;
     mnemonic: string;
 }
 
@@ -68,6 +70,7 @@ jest.setTimeout(50000);
 describe("Common functions test", () => {
     it("Generate mnemonic", async () => {
         const mnemonic = await Common.generateMnemonic()
+        expect(mnemonic.split(' ').length).toEqual(12)
     })
 })
 
@@ -123,6 +126,47 @@ describe("EVM class blockchain Test", () => {
         it("Get Token", async () => {
             const token = await Ethereum.getToken({ tokenAddress: '0xACea9AF39ceA78F35f6465E942820A9d8CA1BDa9', rpcUrl: 'https://eth-goerli.public.blastapi.io', address: '0xa1378d240F546ed2fccc833d1A8a96D63752087F' })
         })
+    });
+
+    describe("Ethereum Goerli Wallet Test, (sendCoin(), tokenTransfer())", () => {
+
+        it("Import Account", async () => {
+            const account = await Ethereum.importAccount({
+                privateKey: `2731ec85750409165ab40af323cf453dffbd853b0a02166e7804eeddceaf8f97`,
+            });
+    
+            expect(typeof account).toBe("object");
+        });
+        
+        // it("Send Coin", async () => {
+        //     const tx = await Ethereum.sendCoin({
+        //         rpcUrl: `https://goerli.infura.io/v3/60d0fc034847460da68aa4501df5fe57`,
+        //         privateKey: `2731ec85750409165ab40af323cf453dffbd853b0a02166e7804eeddceaf8f97`,
+        //         receiveAddress: `0x66CD8B179F7290490d8c1CF5A29f5368a572d4B9`,
+        //         amount: '0.1'
+        //     })
+            
+        //     console.log("ETH send transaction", tx.hash)
+        // })
+        
+        // it("Transfer Token", async () => {
+        //     const tx = await Ethereum.tokenTransfer({
+        //         rpcUrl: `https://goerli.infura.io/v3/60d0fc034847460da68aa4501df5fe57`,
+        //         privateKey: `2731ec85750409165ab40af323cf453dffbd853b0a02166e7804eeddceaf8f97`,
+        //         receiveAddress: `0x66CD8B179F7290490d8c1CF5A29f5368a572d4B9`,
+        //         tokenAddress: `0xc883d4f7dad93d4b7325ed2b83ed56fd95e73c42`,
+        //         amount: ethers.utils.parseUnits('50', 18)
+        //     })
+        // })
+
+        it("Get Balance", async () => {
+            const balance = await Ethereum.getBalance({
+                defaultProviderRpcUrl: `https://goerli.infura.io/v3/60d0fc034847460da68aa4501df5fe57`,
+                address: "0x66CD8B179F7290490d8c1CF5A29f5368a572d4B9",
+            });
+
+            expect(typeof balance).toBe("number");
+        });
     });
     
     describe("Polygon Wallet Test", () => {
@@ -472,16 +516,15 @@ describe("Test Bitcoin", () => {
         randomWallet: BtcWallet;
 
     it("Create Wallet", async () => {
-        const createdWallet = await Bitcoin.createWallet({
+        createdWallet = await Bitcoin.createWallet({
             network: "testnet",
         });
 
-        console.log(createdWallet)
+        randomWallet = await Bitcoin.createWallet({
+            network: "bitcoin",
+        });
 
-        // randomWallet = await Bitcoin.createWallet({
-        //     network: "bitcoin",
-        // });
-        // expect(typeof createdWallet).toBe("object");
+        expect(typeof createdWallet).toBe("object");
     });
 
     it("Import Wallet", async () => {
@@ -493,21 +536,21 @@ describe("Test Bitcoin", () => {
         expect(typeof importedWallet).toBe("object");
     });
 
-    // it("Import Account", async () => {
-    //     importedWallet = await Bitcoin.importAccount({
-    //         network: "bitcoin",
-    //         privateKey: createdWallet.privateKey,
-    //     });
+    it("Import Account", async () => {
+        importedWallet = await Bitcoin.importAccount({
+            network: "bitcoin",
+            privateKey: createdWallet.privateKey,
+        });
 
-    //     expect(typeof importedWallet).toBe("object");
-    // });
+        expect(typeof importedWallet).toBe("object");
+    });
 
     it("Get balance", async () => {
         const balance = await Bitcoin.getBalance({
             address: "34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo",
         });
 
-        expect(typeof balance).toBe("number");
+        expect(typeof balance).toBe("object");
     });
 });
 
@@ -524,6 +567,13 @@ describe("Ripple Test", () => {
             secretKey: "luggage flip infant wife pear forest ugly canyon elite one bread finger",
         });
         expect(typeof importedWallet).toBe("object");
+    });
+
+    it("Import Account", async () => {
+        importedWallet = await Ripple.importAccount({
+            privateKey: createdWallet.seed,
+        });
+        expect(typeof importedWallet).toBe(createdWallet);
     });
 
     it("Get Balances", async () => {
@@ -603,14 +653,13 @@ describe("Tron Test", () => {
             address: "TABWo715YJTqBndZfm4hUu5C4h9doonfZe",
         });
     });
-});
 
-// describe("Hedera Test", () => {
-//     it("Create Wallet", async () => {
-//         const wallet = await Hedera.createWallet()
-//         console.log(wallet)
-//     })
-// })
+    it("Get Token", async () => {
+        const token = await Tron.getTokenInfo({ contractAddress: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t " })
+
+        console.warn(token)
+    })
+});
 
 
 describe("Stellar Test", () => {

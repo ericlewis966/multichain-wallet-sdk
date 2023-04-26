@@ -16,7 +16,8 @@ import {
     IMPORT_WALLET,
     IMPORT_ACCOUNT,
     GET_BALANCE,
-    SEND_COIN
+    SEND_COIN,
+    GET_TOKEN
 } from "../../utils/constant";
 import { AnyObject } from "../../utils/globalType";
 import { response, walletResponse, balanceResponse } from "../../utils/response";
@@ -61,8 +62,6 @@ const importAccount = async (privateKey: string) => {
 
     const address = TronWeb.address.fromPrivateKey(privateKey);
 
-    console.log(TronWeb)
-
     return walletResponse({
         privateKey,
         address,
@@ -86,12 +85,20 @@ const sendTrx = async (privateKey: string, fromAddress: string, toAddress: strin
     return confirmed
 }
 
+const getTokenInfo = async(contractAddress: string) => {
+    const tronWeb = new TronWeb(TRON_MAINNET_FULL_NODE, TRON_MAINNET_SOLIDITY_NODE, TRON_MAINNET_EVENT_SERVER)
+    const tokenInfo = await tronWeb.trx.getTokenByID(contractAddress)
+
+    return tokenInfo
+}
+
 const TronWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
     [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
-    [SEND_COIN]: sendTrx
+    [SEND_COIN]: sendTrx,
+    [GET_TOKEN]: getTokenInfo
 };
 
 export default TronWallet;

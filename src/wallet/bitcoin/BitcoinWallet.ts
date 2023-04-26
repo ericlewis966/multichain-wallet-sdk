@@ -2,7 +2,7 @@
 import * as bip32 from 'bip32'
 import * as bip39 from 'bip39'
 import * as bitcoin from 'bitcoinjs-lib';
-// import * as Bitcoin from "react-native-bitcoinjs-lib"
+import { PrivateKey } from 'bitcore-lib';
 
 import axios from 'axios';
 import { fetchUTXOs } from '../../helper/bitcoinHelper';
@@ -47,7 +47,7 @@ const createWallet = (_network: string, derivedPath?: string) => {
 
     const mnemonic = bip39.generateMnemonic();
     const seed = bip39.mnemonicToSeedSync(mnemonic);
-    // const bip32 = BIP32Factory(ecc);
+
     const root = bip32.fromSeed(seed, network);
 
     const account = root.derivePath(path);
@@ -104,43 +104,44 @@ const importWallet = async (_network: string, mnemonic: string, derivedPath?: st
     })
 }
 
-// const importAccount = async (_network: string, _privateKey: string) => {
-//     let network;
+const importAccount = async (_network: string, _privateKey: string) => {
+    let network;
 
-//     switch(_network) {
-//         case BTC_MAINNET:
-//             network = bitcoin.networks.bitcoin;
-//             break;
-//         case BTC_REGTEST:
-//             network = bitcoin.networks.regtest;
-//             break;
-//         case BTC_TESTNET:
-//             network = bitcoin.networks.testnet;
-//             break;
-//         default:
-//             network = bitcoin.networks.bitcoin;
-//             break;
-//     }
+    switch(_network) {
+        case BTC_MAINNET:
+            network = bitcoin.networks.bitcoin;
+            break;
+        case BTC_REGTEST:
+            network = bitcoin.networks.regtest;
+            break;
+        case BTC_TESTNET:
+            network = bitcoin.networks.testnet;
+            break;
+        default:
+            network = bitcoin.networks.bitcoin;
+            break;
+    }
 
-//     const privateKey = new PrivateKey(_privateKey);
+    const privateKey = new PrivateKey(_privateKey);
 
-//     const publicKey = privateKey.publicKey.toBuffer();
+    const publicKey = privateKey.publicKey.toBuffer();
 
-//     const address = bitcoin.payments.p2pkh({
-//         pubkey: publicKey,
-//         network: network
-//     }).address;
+    const address = bitcoin.payments.p2pkh({
+        pubkey: publicKey,
+        network: network
+    }).address;
 
-//     return walletResponse({
-//         address: address,
-//         privateKey: _privateKey,
-//     })
-// }
+    return walletResponse({
+        address: address,
+        privateKey: _privateKey,
+    })
+}
 
 const getBalance = async (address: string) => {
     let balance;
     try {
-        balance  = await axios.get(`https://blockchain.info/q/addressbalance/${address}`);
+        // balance  = await axios.get(`https://blockchain.info/q/addressbalance/${address}`);
+        balance = await axios.get(`https://blockstream.info/api/address/${address}/utxo`)
     } catch (err: any) {
         return new Error(err);
     }
@@ -182,7 +183,7 @@ const sendBtc = async (_network: string, senderPrivateKey: string, senderAddress
 const BitcoinWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
-    // [IMPORT_ACCOUNT]: importAccount,
+    [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
     [SEND_COIN]: sendBtc
 }

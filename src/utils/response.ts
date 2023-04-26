@@ -8,6 +8,7 @@ interface IWalletResponse {
     publicKey?: string;
     mnemonic?: string;
     nonce?: number;
+    seed?: string;
 }
 
 type IBalanceResponse = number | string;

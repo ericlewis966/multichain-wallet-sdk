@@ -1,9 +1,8 @@
 /* eslint-disable */
-
-import "@ethersproject/shims"
+import axios from 'axios';
 
 import { ethers } from 'ethers';
-// import { hdkey } from 'ethereumjs-wallet';
+import { hdkey } from 'ethereumjs-wallet';
 import { mnemonicToSeed } from 'bip39';
 
 // import response format
@@ -14,18 +13,21 @@ import { ETHEREUM_DEFAULT } from '../../utils/constant';
 import {
     CREATE_WALLET,
     IMPORT_WALLET,
-    CREATE_ACCOUNT,
     CREATE_MASTERSEED,
+    CREATE_ACCOUNT,
     IMPORT_ACCOUNT,
     GET_BALANCE,
+    GET_TOKEN_BALANCE,
     GET_TOKEN,
     SEND_COIN,
     APPROVE_TOKEN,
     TRANSFER_TOKEN,
-    GET_GAS
+    GET_GAS,
+    ETHER_GASSTATION_API
 } from '../../utils/constant';
 // import ineterface
 import { AnyObject } from '../../utils/globalType';
+import { GasEstimationPayload } from 'utils/payloads/ethereum';
 // import util functions
 import {
     isContractAddress,
@@ -34,6 +36,8 @@ import {
 // import ABI
 import ERC20 from '../../abi/erc20';
 import ERC721 from '../../abi/erc721';
+
+import { weiToEther, gweiToEther, gweiToWei } from '../../utils/utils';
 
 /**
  * 
@@ -81,22 +85,22 @@ const createMasterSeedFromMnemonic = async (mnemonic: string) => {
     return seed;
 }
 
-// /**
-//  * 
-//  * @param rootKey 
-//  * @returns New Account
-//  */
-// const createAccount = async (rootKey: any, nonce: number) => {
-//     const hdWallet = await hdkey.fromMasterSeed(rootKey);
-//     const wallet = hdWallet.derivePath(ETHEREUM_DEFAULT + nonce).getWallet();
-//     const address = `0x${wallet.getAddress().toString('hex')}`;
-//     const privateKey = wallet.getPrivateKey().toString('hex');
+/**
+ * 
+ * @param rootKey 
+ * @returns New Account
+ */
+const createAccount = async (rootKey: any, nonce: number) => {
+    const hdWallet = await hdkey.fromMasterSeed(rootKey);
+    const wallet = hdWallet.derivePath(ETHEREUM_DEFAULT + nonce).getWallet();
+    const address = `0x${wallet.getAddress().toString('hex')}`;
+    const privateKey = wallet.getPrivateKey().toString('hex');
 
-//     return walletResponse({
-//         address: address,
-//         privateKey: privateKey
-//     });
-// }
+    return walletResponse({
+        address: address,
+        privateKey: privateKey
+    });
+}
 
 /**
  * 
@@ -126,6 +130,13 @@ const getBalance = async (rpcUrl: string, address: string) => {
     return balanceResponse( parseInt(balance['_hex'], 16) )
 }
 
+/**
+ * 
+ * @param tokenAddress 
+ * @param rpcUrl 
+ * @param address 
+ * @returns Token info
+ */
 const getToken = async (tokenAddress: string, rpcUrl: string, address: string) => {
     const isContract = await isContractAddress(rpcUrl, tokenAddress);
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -212,6 +223,26 @@ const getToken = async (tokenAddress: string, rpcUrl: string, address: string) =
     }
 }
 
+/**
+ * 
+ * @param tokenAddress 
+ * @param rpcUrl 
+ * @param address 
+ * @returns Token balance
+ */
+const getTokenBalance = async (tokenAddress: string, rpcUrl: string, address: string) => {
+    try {
+        const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+        const contract = new ethers.Contract(tokenAddress, ERC20, provider);
+
+        const balance = await contract.balanceOf(address)
+
+        return balanceResponse(balance)
+    }
+    catch (err) {
+        throw response({err})
+    }
+}
 
 /**
  * 
@@ -221,75 +252,125 @@ const getToken = async (tokenAddress: string, rpcUrl: string, address: string) =
  * @param amount 
  * @returns transaction result
  */
-const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: string, amount: string, gasPrice?: number, gasLimit?: number) => {
+const sendEther = async (rpcUrl: string, privateKey: string, receiveAddress: string, amount: string, gasPrice?: any, gasLimit?: any) => {
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     const senderAccount = new ethers.Wallet(privateKey, provider);
 
-    const defaultGasPrice = await provider.getGasPrice()
-    const defaultGasLimit =(await provider.getBlock('latest')).gasLimit
-    const defaultGasPriceSn = parseInt(defaultGasPrice._hex, 16)
+    try {
+        let tx;
+        if(gasPrice && gasLimit) {
+            tx = await senderAccount.sendTransaction({
+                to: receiveAddress,
+                value: ethers.utils.parseEther(amount),
+                gasPrice,
+                gasLimit
+            })
+        }
+        else {
+            tx = await senderAccount.sendTransaction({
+                to: receiveAddress,
+                value: ethers.utils.parseEther(amount),
+            })
+        }
 
-    const _gasPrice = gasPrice || ethers.BigNumber.from(Math.round(defaultGasPriceSn + (defaultGasPriceSn / 10)))
-    const _gasLimit = gasLimit || defaultGasLimit
-
-    const tx = {
-        to: receiveAddress,
-        value: ethers.utils.parseEther(amount),
-        gasPrice: _gasPrice,
-        gasLimit: _gasLimit
+        return response(tx);
     }
-
-    const txResult = senderAccount.sendTransaction(tx);
-    return response(txResult);
+    catch (err) {
+        throw response({err})
+    }
 }
 
-const tokenApprove = async (rpcUrl: string, privateKey: string, receiveAddress: string, tokenAddress: string, amount: string, gasPrice: number, gasLimit: number) => {
+const tokenApprove = async (rpcUrl: string, privateKey: string, receiveAddress: string, tokenAddress: string, amount: string, gasPrice?: any, gasLimit?: any) => {
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     const senderAccount = new ethers.Wallet(privateKey, provider);
     const contract = new ethers.Contract(tokenAddress, ERC20, provider);
     const signedContract = contract.connect(senderAccount);
 
     try {
-        const tx = await signedContract.approve(receiveAddress, amount, { gasPrice: gasPrice, gasLimit: gasLimit });
+        let tx;
+
+        if(gasPrice && gasLimit) {
+            tx = await signedContract.approve(receiveAddress, amount, { gasPrice: gasPrice, gasLimit: gasLimit });
+        }
+        else {
+            tx = await signedContract.approve(receiveAddress, amount);
+        }
+
         return response(tx);
     } catch (err) {
-        return response({ err });
+        throw response({ err });
     }
 }
 
-const tokenTransfer = async (rpcUrl: string, privateKey: string, receiveAddress: string, tokenAddress: string, amount: string, gasPrice: number, gasLimit: number) => {
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-    const senderAccount = new ethers.Wallet(privateKey, provider);
-    const contract = new ethers.Contract(tokenAddress, ERC20, provider);
-    const signedContract = contract.connect(senderAccount);
-
-    try {
-        const tx = await signedContract.transfer(receiveAddress, amount, { gasPrice: gasPrice, gasLimit: gasLimit });
-        return response(tx);
-    } catch (err) {
-        return response({ err });
-    }
-}
-
-const getGas = async (rpcUrl: string) => {
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-    const block = await provider.getBlock('latest')
+const tokenTransfer = async (rpcUrl: string, privateKey: string, receiveAddress: string, tokenAddress: string, amount: any, gasPrice?: any, gasLimit?: any) => {
     
-    const gasPrice = await provider.getGasPrice()
-    const gasLimit = block.gasLimit
-    return response({
-        gasPrice,
-        gasLimit
-    })
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+    const senderAccount = new ethers.Wallet(privateKey, provider);
+
+    const contract = new ethers.Contract(tokenAddress, ERC20, provider);
+    const signedContract = contract.connect(senderAccount);
+
+
+    try {
+        let tx;
+        if(gasPrice && gasLimit) {
+            tx = await signedContract.transfer(receiveAddress, amount, { gasPrice, gasLimit });
+        }
+        else {
+            tx = await signedContract.transfer(receiveAddress, amount);
+        }
+        return response(tx);
+    } catch (err) {
+        throw response({ err });
+    }
+}
+
+const getGas = async (): Promise<GasEstimationPayload> => {
+    try {
+        const gasResponse = await axios.get(ETHER_GASSTATION_API)
+        const estimatedGas =  gasResponse.data
+
+        const low = Number(estimatedGas.safeLow / 10)
+        const average = Number(estimatedGas.average / 10)
+        const fast = Number(estimatedGas.fast / 10)
+        const lowWei = await gweiToWei(low)
+        const averageWei = await gweiToWei(average)
+        const fastWei = await gweiToWei(fast)
+        const lowEth = await gweiToEther(low)
+        const averageEth = await gweiToEther(average)
+        const fastEth = await gweiToEther(fast)
+        const safeLowWaitMin = estimatedGas.safeLowWait;
+        const avgWaitMin = estimatedGas.avgWait;
+        const fastWaitMin = estimatedGas.fastWait;
+
+        return {
+            low,
+            average,
+            fast,
+            lowWei,
+            averageWei,
+            fastWei,
+            lowEth,
+            averageEth,
+            fastEth,
+            safeLowWaitMin,
+            avgWaitMin,
+            fastWaitMin
+        }
+    }
+    catch (err) {
+        throw response({err})
+    }
 }
 
 const EthereumWallet: AnyObject = {
     [CREATE_WALLET]: createWallet,
     [IMPORT_WALLET]: importWallet,
+    [CREATE_ACCOUNT]: createAccount,
     [CREATE_MASTERSEED]: createMasterSeedFromMnemonic,
-    // [CREATE_ACCOUNT]: createAccount,
     [IMPORT_ACCOUNT]: importAccount,
     [GET_BALANCE]: getBalance,
+    [GET_TOKEN_BALANCE]: getTokenBalance,
     [GET_TOKEN]: getToken,
     [SEND_COIN]: sendEther,
     [APPROVE_TOKEN]: tokenApprove,

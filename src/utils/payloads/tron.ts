@@ -17,3 +17,7 @@ export interface SendTrxPayload {
     toAddress: string;
     amount: number
 }
+
+export interface GetTokenInfoPayload {
+    contractAddress: string
+}

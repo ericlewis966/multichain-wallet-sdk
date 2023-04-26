@@ -20,6 +20,7 @@ import {
     CREATE_ACCOUNT,
     IMPORT_ACCOUNT,
     GET_BALANCE,
+    GET_TOKEN_BALANCE,
     GET_TOKEN,
     SEND_COIN,
     APPROVE_TOKEN,
@@ -65,10 +66,10 @@ export async function createMasterSeed(args: CreateMasterSeedPayload) {
  * @param args 
  * @returns Created Account
  */
-// export async function createAccount(args: CreateAccountPayload) {
-//     const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
-//     return account;
-// }
+export async function createAccount(args: CreateAccountPayload) {
+    const account = await Wallet[CREATE_ACCOUNT](args.rootKey, args.nonce);
+    return account;
+}
 
 /**
  * 
@@ -89,6 +90,16 @@ export async function importAccount(args: ImportAccountPayload) {
 export async function getBalance (args: BalancePayload) {
     const balance = await Wallet[GET_BALANCE](args.defaultProviderRpcUrl, args.address);
     return balance;
+}
+
+/**
+ * 
+ * @param args 
+ * @returns Token balance
+ */
+export async function getTokenBalance (args: GetTokenPayload) {
+    const balance = await Wallet[GET_TOKEN_BALANCE](args.tokenAddress, args.rpcUrl, args.address)
+    return balance
 }
 
 /**
@@ -118,7 +129,6 @@ export async function sendCoin(args: SendPayload) {
  */
 export async function tokenApprove(args: TokenApproveAndTransferPayload) {
     const tx = await Wallet[APPROVE_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args.gasPrice, args.gasLimit);
-
     return tx;
 }
 
@@ -128,7 +138,6 @@ export async function tokenApprove(args: TokenApproveAndTransferPayload) {
  * @returns transaction result
  */
 export async function tokenTransfer(args: TokenApproveAndTransferPayload) {
-    const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args.gasPrice, args.gasLimit);
-
+    const tx = await Wallet[TRANSFER_TOKEN](args.rpcUrl, args.privateKey, args.receiveAddress, args.tokenAddress, args.amount, args?.gasPrice, args?.gasLimit);
     return tx;
 }
